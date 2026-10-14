@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inbasekaran S — AI Systems &amp; LLM Inference Researcher | inbasekaran.com</title>
+  <meta name="description" content="Personal academic and research portfolio of Inbasekaran S — Computer Science &amp; Engineering (Cyber Security) researcher at SRMIST focusing on LLM inference efficiency, Rényi-guided context pruning (EntroPrefill), hardware-aligned KV-cache management (Page-EntroKV), and zero-trust systems." />
+  <link rel="canonical" href="https://inbasekaran.com/" />
+  <style>
+    :root {
+      --bg: #fdfdfc;
+      --bg-elevated: #f6f5f2;
+      --bg-card-hover: #f1f0ec;
+      --text: #1c1c1c;
+      --text-secondary: #52524e;
+      --text-muted: #787772;
+      --accent: #1d4ed8;
+      --accent-hover: #1e40af;
+      --accent-subtle: rgba(29, 78, 216, 0.08);
+      --border: #e6e4dd;
+      --border-strong: #d4d1c7;
+      --badge-bg: #eef2ff;
+      --badge-text: #1e3a8a;
+      --highlight-bg: #fef9c3;
+      --highlight-text: #854d0e;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Newsreader", "Georgia", "Times New Roman", serif;
+      --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --max-w: 850px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #111110;
+      --bg-elevated: #1a1918;
+      --bg-card-hover: #222120;
+      --text: #ededeb;
+      --text-secondary: #b5b3ad;
+      --text-muted: #84827c;
+      --accent: #60a5fa;
+      --accent-hover: #93c5fd;
+      --accent-subtle: rgba(96, 165, 250, 0.12);
+      --border: #2a2927;
+      --border-strong: #3b3a37;
+      --badge-bg: rgba(96, 165, 250, 0.14);
+      --badge-text: #bfdbfe;
+      --highlight-bg: rgba(234, 179, 8, 0.16);
+      --highlight-text: #fde047;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color var(--transition), opacity var(--transition);
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Sticky Minimalist Header */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.02rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand:hover {
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .brand-domain {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 450;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .theme-toggle:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+    }
+
+    /* Main Content Container */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4.5rem;
+    }
+
+    /* Hero / Bio Section (Anna Min / Jon Barron Inspired Two-Column Layout) */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 195px;
+      gap: 2.5rem;
+      align-items: start;
+      margin-bottom: 3.25rem;
+    }
+
+    .hero-name {
+      font-size: 2.15rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 0.35rem;
+      color: var(--text);
+    }
+
+    .hero-subtitle {
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.15rem;
+      font-weight: 450;
+    }
+
+    .hero-bio p {
+      font-size: 0.97rem;
+      color: var(--text);
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-emails {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin: 1rem 0 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .email-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.75rem;
+    }
+
+    .copy-email-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.73rem;
+      padding: 0.12rem 0.48rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .copy-email-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.48rem;
+      font-size: 0.92rem;
+      margin-top: 0.65rem;
+    }
+
+    .social-sep {
+      color: var(--border-strong);
+      user-select: none;
+    }
+
+    /* Portrait Card */
+    .portrait-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .portrait-frame {
+      width: 195px;
+      height: 230px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      cursor: pointer;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .portrait-frame:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .portrait-placeholder {
+      padding: 1.25rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    .portrait-monogram {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--accent-subtle);
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .portrait-caption {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .portrait-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* Section Headings */
+    section {
+      margin-bottom: 3.1rem;
+      scroll-margin-top: 4.5rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+      color: var(--text);
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .section-subtitle {
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Recent Updates List (Anna Min style) */
+    .updates-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.68rem;
+      font-size: 0.94rem;
+    }
+
+    .update-item {
+      display: grid;
+      grid-template-columns: 115px 1fr;
+      gap: 0.75rem;
+      align-items: baseline;
+    }
+
+    .update-date {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Research & Project Entries (Visual Schematic + Details Layout) */
+    .entry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .entry-card {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 1.35rem;
+      align-items: start;
+      padding: 0.85rem;
+      margin: -0.85rem;
+      border-radius: 10px;
+      transition: background-color var(--transition);
+    }
+
+    .entry-card:hover {
+      background-color: var(--bg-elevated);
+    }
+
+    .entry-thumb {
+      width: 190px;
+      height: 126px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem;
+    }
+
+    .entry-thumb svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .entry-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      line-height: 1.38;
+      color: var(--text);
+      margin-bottom: 0.28rem;
+    }
+
+    .entry-title a {
+      color: var(--text);
+    }
+
+    .entry-title a:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .entry-authors {
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+    }
+
+    .entry-authors strong {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .entry-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .paper-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-weight: 500;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+    }
+
+    .badge-highlight {
+      background: var(--highlight-bg);
+      color: var(--highlight-text);
+      font-weight: 600;
+    }
+
+    .entry-desc {
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+      line-height: 1.58;
+    }
+
+    .entry-bullets {
+      margin-top: 0.45rem;
+      padding-left: 1.1rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    /* Timeline Table for Awards, Internships, and Leadership (Anna Min Selected Awards style) */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-main {
+      font-size: 0.94rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .timeline-sub {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+    }
+
+    /* Compact Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 165px 1fr;
+      gap: 0.75rem 1rem;
+      font-size: 0.92rem;
+      align-items: baseline;
+    }
+
+    .skill-cat {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+    }
+
+    .skill-tag {
+      font-size: 0.82rem;
+      padding: 0.14rem 0.55rem;
+      border-radius: 4px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 680px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .portrait-wrap {
+        order: -1;
+        align-items: flex-start;
+      }
+      .entry-card {
+        grid-template-columns: 1fr;
+      }
+      .entry-thumb {
+        width: 100%;
+        height: 135px;
+      }
+      .update-item,
+      .timeline-row,
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+      .timeline-row {
+        margin-bottom: 0.35rem;
+      }
+    }
+
+    @media print {
+      header.site-header, .theme-toggle, .copy-email-btn, .portrait-hint {
+        display: none !important;
+      }
+      body {
+        background: #fff;
+        color: #000;
+      }
+      main {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimalist Sticky Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#top" class="brand">
+        <span>Inbasekaran S</span>
+        <span class="brand-domain">inbasekaran.com</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#research">Research</a>
+        <a href="#projects">Projects</a>
+        <a href="#awards">Awards</a>
+        <a href="#service">Service</a>
+        <a href="#writing">Book</a>
+        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
+          <svg id="sunIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="moonIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-content">
+        <h1 class="hero-name">Inbasekaran S</h1>
+        <p class="hero-subtitle">AI Systems &amp; LLM Inference Researcher · B.Tech CSE (Cyber Security) at SRMIST</p>
+
+        <div class="hero-bio">
+          <p>
+            Hi! I am a pre-final-year undergraduate studying Computer Science and Engineering (Cyber Security) at
+            <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRM Institute of Science and Technology (SRMIST)</a>
+            (CGPA: 8.66/10, expected May 2028).
+          </p>
+          <p>
+            My research focuses on <strong>LLM inference efficiency</strong> and <strong>ML systems</strong>, specifically information-theoretic
+            context pruning (<a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">EntroPrefill</a>) and hardware-aligned
+            KV-cache management (<a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">Page-EntroKV</a>) under grouped-query attention.
+            Alongside my research, I build AI agent workspaces and zero-trust cryptographic verification systems, and I am the author of
+            <em><a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Neither Living Nor Dying: Reflection of the Middle</a></em>.
+          </p>
+        </div>
+
+        <div class="hero-emails">
+          <div class="email-line">
+            <span>Research email: <a href="mailto:inba.research.ilrl.labs@gmail.com">inba.research.ilrl.labs@gmail.com</a></span>
+            <button class="copy-email-btn" data-email="inba.research.ilrl.labs@gmail.com" type="button">Copy</button>
+          </div>
+          <div class="email-line">
+            <span>Academic email: <a href="mailto:in5904@srmist.edu.in">in5904@srmist.edu.in</a></span>
+            <span>·</span>
+            <span>Tel: <a href="tel:+918925583425">+91 8925583425</a></span>
+          </div>
+        </div>
+
+        <div class="social-row">
+          <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en&amp;authuser=5" target="_blank" rel="noopener">Google Scholar</a>
+          <span class="social-sep">/</span>
+          <a href="mailto:inba.research.ilrl.labs@gmail.com">Email</a>
+          <span class="social-sep">/</span>
+          <a href="https://github.com/bruce12-glitch" target="_blank" rel="noopener">GitHub</a>
+          <span class="social-sep">/</span>
+          <a href="https://www.linkedin.com/in/inbasekaran-s-106a90383/" target="_blank" rel="noopener">LinkedIn</a>
+          <span class="social-sep">/</span>
+          <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Book</a>
+          <span class="social-sep">/</span>
+          <a href="https://github.com/bruce12-glitch/Inbasekaran" target="_blank" rel="noopener">Site Repo</a>
+        </div>
+      </div>
+
+      <!-- Portrait Column (with interactive click-to-preview photo uploader) -->
+      <div class="portrait-wrap">
+        <label class="portrait-frame" for="photoInput" title="Click to preview your portrait photo">
+          <img id="portraitImg" alt="Portrait of Inbasekaran S" />
+          <div class="portrait-placeholder" id="portraitPlaceholder">
+            <div class="portrait-monogram">IS</div>
+            <div class="portrait-caption">Inbasekaran S</div>
+            <div class="portrait-hint">Click to preview portrait<br/>or add <code>profile.jpg</code></div>
+          </div>
+        </label>
+        <input type="file" id="photoInput" accept="image/*" style="display:none;" />
+      </div>
+    </div>
+
+    <!-- Recent Updates -->
+    <section id="updates">
+      <h2 class="section-title">Recent Updates</h2>
+      <ul class="updates-list">
+        <li class="update-item">
+          <span class="update-date">Oct. 2026</span>
+          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>), guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">TUM</a>).</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Oct. 2026</span>
+          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>), guided by Sobin C.C (<a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>).</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Jul – Aug 2026</span>
+          <span>Completed the <strong>AICTE AWS Gen AI Virtual Internship</strong>, designing model training and evaluation labs on Amazon SageMaker and AWS Academy.</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Apr – Jun 2026</span>
+          <span>Completed the <strong>AICTE Google AI/ML Virtual Internship</strong> focused on applied machine learning labs and systems exercises.</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">2025 – 2026</span>
+          <span>Recognized as <strong>Winner of the Raccoon AI Hackathon</strong>, <strong>National Finalist at Shark Tank Nationals</strong>, and ranked in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turks.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Research / Selected Publications Section -->
+    <section id="research">
+      <h2 class="section-title">Selected Publications &amp; Research</h2>
+      <p class="section-subtitle">
+        I study efficient LLM inference, information-theoretic attention and context pruning, hardware-aligned KV-cache allocation under grouped-query attention, and zero-trust cryptographic systems.
+      </p>
+
+      <div class="entry-list">
+        <!-- Paper 1: EntroPrefill -->
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="14" y="24" fill="var(--text-muted)" font-family="monospace" font-size="7.5">Sink-Isolated Rényi H₂(A)</text>
+              <rect x="14" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.85" />
+              <rect x="46" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.25" />
+              <rect x="78" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.9" />
+              <rect x="110" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.2" />
+              <path d="M28 50 L48 68 M92 50 L76 68" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2 2" />
+              <rect x="34" y="70" width="56" height="20" rx="3" fill="var(--badge-bg)" stroke="var(--accent)" stroke-width="1" />
+              <text x="41" y="83" fill="var(--accent)" font-family="sans-serif" font-weight="bold" font-size="8">Audited R*</text>
+              <rect x="102" y="66" width="62" height="26" rx="4" fill="var(--highlight-bg)" />
+              <text x="109" y="78" fill="var(--highlight-text)" font-family="monospace" font-weight="bold" font-size="8.5">-43.1% TTFT</text>
+              <text x="109" y="87" fill="var(--highlight-text)" font-family="sans-serif" font-size="6.5">arXiv:2610.09757</text>
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">
+              <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">
+                EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation
+              </a>
+            </h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · Guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">Technical University of Munich, TUM</a>)
+            </div>
+            <div class="entry-meta">
+              <span class="badge">arXiv:2610.09757v1 [cs.LG] · Oct 2026</span>
+              <span class="badge badge-highlight">-43.1% TTFT</span>
+              <span class="paper-links">
+                / <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">[arXiv HTML]</a>
+                / <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en&amp;authuser=5" target="_blank" rel="noopener">[Scholar]</a>
+              </span>
+            </div>
+            <p class="entry-desc">
+              Formulates mid-prefill context pruning as a sink-isolated Order-2 Rényi proposal mechanism coupled to explicit constraints on discarded attention mass, mixture-to-head deletion envelopes, dual optimality-gap certificates, and independent adaptive-layer observer auditing.
+            </p>
+            <ul class="entry-bullets">
+              <li>Optimized LLM inference efficiency by implementing EntroPrefill, a training-free context pruning method that cut Time-To-First-Token (TTFT) by 43.1%.</li>
+              <li>Engineered an information-theoretic scoring function utilizing Order-2 Rényi entropy on GQA-pooled attention with conditional transformer perturbation bounds.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Paper 2: Page-EntroKV -->
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="14" y="23" fill="var(--text-muted)" font-family="monospace" font-size="7.5">GQA Page Tuple (l, g, p) · UOR=1.0</text>
+              <g transform="translate(14, 30)">
+                <rect x="0" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
+                <text x="5" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page 0</text>
+                <rect x="39" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
+                <text x="44" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page 1</text>
+                <rect x="78" y="0" width="34" height="26" rx="2" fill="var(--bg)" stroke="var(--border-strong)" stroke-dasharray="2 2" />
+                <text x="82" y="16" fill="var(--text-muted)" font-family="monospace" font-size="6.5">Evicted</text>
+                <rect x="117" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
+                <text x="122" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page K</text>
+              </g>
+              <rect x="14" y="66" width="151" height="24" rx="3" fill="var(--bg)" stroke="var(--border)" />
+              <text x="20" y="77" fill="var(--text)" font-family="sans-serif" font-weight="600" font-size="7.5">100% Needle Recall @ 20% Budget</text>
+              <text x="20" y="86" fill="var(--text-muted)" font-family="monospace" font-size="6.5">arXiv:2610.03135 · Hamilton-Hare Pages</text>
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">
+              <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">
+                Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention
+              </a>
+            </h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · Guided by Sobin C.C (Senior Faculty, <a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>)
+            </div>
+            <div class="entry-meta">
+              <span class="badge">arXiv:2610.03135v1 · Oct 2026</span>
+              <span class="badge badge-highlight">UOR 1.000 · 100% Needle Recall</span>
+              <span class="paper-links">
+                / <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">[arXiv HTML]</a>
+                / <a href="https://arxiv.org/abs/2610.03135" target="_blank" rel="noopener">[Abstract]</a>
+              </span>
+            </div>
+            <p class="entry-desc">
+              A formal framework for KV-cache eviction operating at the hardware tuple <code>(layer, group, page)</code> that GQA serving engines such as vLLM actually allocate, pooling heads via sink-isolated Rényi-2 collision entropy and discrete Hamilton-Hare largest-remainder page allocation.
+            </p>
+            <ul class="entry-bullets">
+              <li>Formalizes the Union Overhead Ratio (UOR), holding UOR at exactly 1.000 (versus up to 4.75×–5.1× cache inflation under head-independent replay on Qwen2.5-1.5B-Instruct).</li>
+              <li>Removes a 13× attention-sink masquerade and achieves 100% needle recall at a 20% KV budget where arithmetic-mean pooling collapses to 0%.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Research 3: VendorChain UROP -->
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="14" y="23" fill="var(--text-muted)" font-family="monospace" font-size="7.2">NIST SP 800-207 Zero-Trust</text>
+              <rect x="14" y="32" width="44" height="32" rx="3" fill="var(--bg)" stroke="var(--accent)" />
+              <text x="19" y="46" fill="var(--text)" font-family="sans-serif" font-weight="bold" font-size="7">AES-256</text>
+              <text x="19" y="56" fill="var(--text-muted)" font-family="monospace" font-size="6">GCM Intake</text>
+              <line x1="58" y1="48" x2="68" y2="48" stroke="var(--accent)" stroke-width="1.5" />
+              <rect x="68" y="32" width="44" height="32" rx="3" fill="var(--bg)" stroke="var(--accent)" />
+              <text x="73" y="46" fill="var(--text)" font-family="sans-serif" font-weight="bold" font-size="7">Syft+Cosign</text>
+              <text x="73" y="56" fill="var(--text-muted)" font-family="monospace" font-size="6">SBOM Sign</text>
+              <line x1="112" y1="48" x2="122" y2="48" stroke="var(--accent)" stroke-width="1.5" />
+              <rect x="122" y="32" width="44" height="32" rx="3" fill="var(--badge-bg)" stroke="var(--accent)" />
+              <text x="126" y="46" fill="var(--accent)" font-family="sans-serif" font-weight="bold" font-size="7">Fabric Go</text>
+              <text x="126" y="56" fill="var(--accent)" font-family="monospace" font-size="6">SHA-256</text>
+              <text x="14" y="84" fill="var(--text-secondary)" font-family="monospace" font-size="7">Immutable B2B Provenance Ledger</text>
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">VendorChain — Zero-Trust B2B Supply-Chain Verification Engine</h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · Undergraduate Research Opportunities Program (UROP) at <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRMIST</a>
+            </div>
+            <div class="entry-meta">
+              <span class="badge">UROP Research</span>
+              <span class="badge">Zero-Trust &amp; Cryptography</span>
+            </div>
+            <p class="entry-desc">
+              End-to-end cryptographic software supply-chain verification architecture combining zero-trust binary intake, automated SBOM attestation, and permissioned blockchain auditability.
+            </p>
+            <ul class="entry-bullets">
+              <li>Architected a NIST SP 800-207-aligned zero-trust intake pipeline with binary magic-byte validation and AES-256-GCM envelope encryption with in-memory zeroing.</li>
+              <li>Engineered an automated CI/CD supply-chain integrity layer using Syft (CycloneDX SBOM extraction) and Cosign cryptographic signing for tamper-proof artifact provenance.</li>
+              <li>Deployed a private Hyperledger Fabric network with custom Go chaincode persisting immutable SHA-256 artifact hashes, policy verdicts, and timestamps.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+      <div class="entry-list">
+        <!-- Project 1: Nullvoid AI -->
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="14" y="23" fill="var(--text-muted)" font-family="monospace" font-size="7.2">Prompt → Multiplayer System Canvas</text>
+              <rect x="14" y="32" width="52" height="54" rx="4" fill="var(--bg)" stroke="var(--border-strong)" />
+              <text x="20" y="46" fill="var(--text)" font-family="sans-serif" font-weight="bold" font-size="7">NL Prompt</text>
+              <line x1="20" y1="54" x2="56" y2="54" stroke="var(--text-muted)" stroke-width="1.5" />
+              <line x1="20" y1="62" x2="48" y2="62" stroke="var(--text-muted)" stroke-width="1.5" />
+              <line x1="20" y1="70" x2="52" y2="70" stroke="var(--text-muted)" stroke-width="1.5" />
+              <path d="M68 58 L82 58" stroke="var(--accent)" stroke-width="1.5" />
+              <rect x="84" y="32" width="80" height="54" rx="4" fill="var(--badge-bg)" stroke="var(--accent)" />
+              <circle cx="102" cy="49" r="7" fill="var(--accent)" opacity="0.85" />
+              <circle cx="142" cy="46" r="7" fill="var(--accent)" opacity="0.85" />
+              <circle cx="124" cy="71" r="7" fill="var(--accent)" opacity="0.85" />
+              <line x1="109" y1="48" x2="135" y2="46" stroke="var(--accent)" stroke-width="1.2" />
+              <line x1="106" y1="55" x2="119" y2="66" stroke="var(--accent)" stroke-width="1.2" />
+              <line x1="138" y1="52" x2="128" y2="65" stroke="var(--accent)" stroke-width="1.2" />
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">Nullvoid AI — AI-Powered Collaborative System Design Workspace</h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · AI / Full-Stack Project · <a href="https://github.com/bruce12-glitch" target="_blank" rel="noopener">GitHub</a>
+            </div>
+            <div class="entry-meta">
+              <span class="badge">AI Agents</span>
+              <span class="badge">Multiplayer Canvas</span>
+              <span class="badge">Full-Stack</span>
+            </div>
+            <p class="entry-desc">
+              A collaborative system architecture environment that turns natural-language descriptions into live, editable diagrams and structured engineering documentation.
+            </p>
+            <ul class="entry-bullets">
+              <li>Built an AI-powered collaborative workspace where users describe a system architecture in plain English.</li>
+              <li>Implemented an AI agent that renders the described architecture as an interactive diagram on a real-time multiplayer canvas.</li>
+              <li>Added automated export of a complete Markdown technical specification generated directly from the system design.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Project 2: VendorChain Full-Stack Platform -->
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <rect x="16" y="20" width="148" height="70" rx="4" fill="var(--bg)" stroke="var(--border-strong)" />
+              <circle cx="24" cy="28" r="2.5" fill="var(--text-muted)" />
+              <circle cx="32" cy="28" r="2.5" fill="var(--text-muted)" />
+              <circle cx="40" cy="28" r="2.5" fill="var(--text-muted)" />
+              <line x1="16" y1="35" x2="164" y2="35" stroke="var(--border)" />
+              <rect x="24" y="43" width="58" height="38" rx="3" fill="var(--badge-bg)" />
+              <text x="30" y="58" fill="var(--accent)" font-family="sans-serif" font-weight="bold" font-size="7.5">Vendor Portal</text>
+              <text x="30" y="69" fill="var(--text-secondary)" font-family="monospace" font-size="6.5">Zero-Trust UI</text>
+              <rect x="90" y="43" width="66" height="17" rx="2" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="95" y="54" fill="var(--text)" font-family="monospace" font-size="6.5">Pipeline Engine</text>
+              <rect x="90" y="64" width="66" height="17" rx="2" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <text x="95" y="75" fill="var(--text)" font-family="monospace" font-size="6.5">Core Services</text>
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">VendorChain — Zero-Trust B2B Vendor &amp; Supply-Chain Verification Platform</h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · UROP Research &amp; Platform Engineering
+            </div>
+            <div class="entry-meta">
+              <span class="badge">System Architecture</span>
+              <span class="badge">Frontend &amp; Core Backend</span>
+            </div>
+            <p class="entry-desc">
+              Full-stack B2B verification portal and modular service pipeline supporting zero-trust vendor onboarding and artifact attestation.
+            </p>
+            <ul class="entry-bullets">
+              <li>Developed the frontend interface for the zero-trust B2B vendor and supply-chain verification platform.</li>
+              <li>Designed the end-to-end system architecture of the verification pipeline and built the foundational backend service skeleton.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience">
+      <h2 class="section-title">Internships &amp; Education</h2>
+      <div class="timeline-list">
+        <div class="timeline-row">
+          <div class="timeline-period">Jul – Aug 2026</div>
+          <div class="timeline-main">
+            <div class="timeline-title">AICTE AWS Gen AI Intern <span class="badge" style="margin-left:0.35rem;">Virtual</span></div>
+            <div class="timeline-sub">
+              Executed lab-based generative AI exercises and planned model training and evaluation labs using Amazon SageMaker and AWS Academy environments, with documented accuracy and performance metrics.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">Apr – Jun 2026</div>
+          <div class="timeline-main">
+            <div class="timeline-title">AICTE Google Virtual Intern — AI/ML <span class="badge" style="margin-left:0.35rem;">Virtual</span></div>
+            <div class="timeline-sub">
+              Completed structured lab-oriented exercises, practical machine learning workflows, and applied AI/ML projects.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row" id="education">
+          <div class="timeline-period">2024 – 2028</div>
+          <div class="timeline-main">
+            <div class="timeline-title">
+              <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRM Institute of Science and Technology (SRMIST)</a>
+            </div>
+            <div class="timeline-sub">
+              <strong>B.Tech in Computer Science &amp; Engineering (Cyber Security)</strong> · CGPA: <strong>8.66 / 10</strong> (Expected May 2028)<br />
+              <em>Relevant Coursework:</em> Data Structures &amp; Algorithms, Database Management Systems, Computer Networks, Operating Systems, Artificial Intelligence, Information Security, System Design.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Awards & Certifications -->
+    <section id="awards">
+      <h2 class="section-title">Selected Awards &amp; Certifications</h2>
+      <div class="timeline-list">
+        <div class="timeline-row">
+          <div class="timeline-period">Hackathon Winner</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Winner, Raccoon AI Hackathon</div>
+            <div class="timeline-sub">First-place winner recognized for building and demonstrating an applied AI system.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">National Finalist</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Shark Tank Nationals</div>
+            <div class="timeline-sub">Selected as a National Finalist; pitched an AI product prototype directly to an investor panel.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">Top 10 Finalist</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Hack Rush Hackathon</div>
+            <div class="timeline-sub">Shipped a complete, functional software MVP within a 24-hour sprint to place in the Top 10.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">Top 0.68% India</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Naukri Campus Young Turks</div>
+            <div class="timeline-sub">Ranked in the <strong>99.32 national percentile</strong> in coding and technology assessments across India.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">2026</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Oracle Cloud &amp; AI 4x Foundations Associate</div>
+            <div class="timeline-sub">Issued by Oracle (2026).</div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">2025</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Prompt Engineering for Generative AI · NPTEL Silver Rank · Lean Six Sigma Green Belt</div>
+            <div class="timeline-sub">
+              DeepLearning.AI / Coursera (2025) · NPTEL Silver Rank in Fundamentals of C/C++/Java/DBMS (2025) · IASSC Lean Six Sigma Green Belt (2025).
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leadership, Campus Service & Technical Skills -->
+    <section id="service">
+      <h2 class="section-title">Service &amp; Campus Leadership</h2>
+      <div class="timeline-list" style="margin-bottom: 2.5rem;">
+        <div class="timeline-row">
+          <div class="timeline-period">Aug 2025 – Aug 2026</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Creatives &amp; Sponsorship Lead, Founders Club SRMIST</div>
+            <div class="timeline-sub">
+              Led cross-functional teams across technical, creative, and outreach operations to execute 5+ university startup events. Optimized team communication workflows, reducing deliverable turnaround time by 25% under tight deadlines.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">Aug 2025 – Aug 2026</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Technical Member, E-Cell SRMIST</div>
+            <div class="timeline-sub">
+              Developed creative websites and promotional materials for campus entrepreneurship events.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-row">
+          <div class="timeline-period">Aug 2024 – Present</div>
+          <div class="timeline-main">
+            <div class="timeline-title">Corporate Member, IEEE Student Branch SRMIST</div>
+            <div class="timeline-sub">
+              Coordinated corporate outreach and sponsorship initiatives, securing industry partners for technical events.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title" id="skills">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-cat">AI Research</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Rényi Entropy</span>
+          <span class="skill-tag">KV-Cache Optimization</span>
+          <span class="skill-tag">LLM Inference Efficiency</span>
+          <span class="skill-tag">Grouped-Query Attention (GQA)</span>
+          <span class="skill-tag">LangChain</span>
+          <span class="skill-tag">RAG Systems</span>
+          <span class="skill-tag">Generative AI</span>
+          <span class="skill-tag">LLMs</span>
+        </div>
+
+        <div class="skill-cat">Languages &amp; Core</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Data Structures &amp; Algorithms</span>
+          <span class="skill-tag">OOP</span>
+          <span class="skill-tag">Operating Systems</span>
+          <span class="skill-tag">DBMS</span>
+          <span class="skill-tag">SDLC</span>
+        </div>
+
+        <div class="skill-cat">Security &amp; Trust</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Zero-Trust Architecture (NIST SP 800-207)</span>
+          <span class="skill-tag">Syft (SBOM)</span>
+          <span class="skill-tag">Cosign</span>
+          <span class="skill-tag">Cryptography</span>
+          <span class="skill-tag">Hyperledger Fabric</span>
+        </div>
+
+        <div class="skill-cat">Web, Backend &amp; Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">REST API Design</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">HTML &amp; CSS</span>
+          <span class="skill-tag">Git &amp; GitHub</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">System Design</span>
+          <span class="skill-tag">Workflow Automation</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Misc / Authored Book Section (matching Anna Min's Misc section) -->
+    <section id="writing">
+      <h2 class="section-title">Misc: Books &amp; Writing</h2>
+      <div class="entry-list">
+        <article class="entry-card">
+          <div class="entry-thumb" aria-hidden="true">
+            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
+              <rect x="58" y="16" width="64" height="78" rx="3" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.4" />
+              <line x1="65" y1="16" x2="65" y2="94" stroke="var(--border-strong)" stroke-width="1" />
+              <text x="72" y="36" fill="var(--text)" font-family="serif" font-weight="bold" font-size="7.5">Neither Living</text>
+              <text x="72" y="46" fill="var(--text)" font-family="serif" font-weight="bold" font-size="7.5">Nor Dying</text>
+              <line x1="72" y1="53" x2="112" y2="53" stroke="var(--accent)" stroke-width="1" />
+              <text x="72" y="63" fill="var(--text-secondary)" font-family="serif" font-style="italic" font-size="6">Reflection of</text>
+              <text x="72" y="71" fill="var(--text-secondary)" font-family="serif" font-style="italic" font-size="6">the Middle</text>
+              <text x="72" y="86" fill="var(--text-muted)" font-family="monospace" font-size="5.5">Inbasekaran S</text>
+            </svg>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-title">
+              <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">
+                Neither Living Nor Dying: Reflection of the Middle
+              </a>
+            </h3>
+            <div class="entry-authors">
+              <strong>Inbasekaran S</strong> · Authored Book
+            </div>
+            <div class="entry-meta">
+              <span class="badge">Published Book</span>
+              <span class="paper-links">
+                / <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">[Amazon]</a>
+              </span>
+            </div>
+            <p class="entry-desc">
+              Beyond computer science and machine learning systems, I explore philosophical and reflective writing. My book,
+              <em><a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Neither Living Nor Dying: Reflection of the Middle</a></em>,
+              is available on Amazon.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        © 2026 Inbasekaran S · <strong>inbasekaran.com</strong> ·
+        <a href="https://github.com/bruce12-glitch/Inbasekaran" target="_blank" rel="noopener">Source Repository</a>
+      </div>
+      <div>Minimalist academic layout inspired by <a href="https://anna-min.com/" target="_blank" rel="noopener">Anna Min</a> &amp; Jonathan Barron</div>
+    </footer>
+  </main>
+
+  <script>
+    // Light / Dark Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+
+    function applyTheme(theme) {
+      htmlEl.setAttribute('data-theme', theme);
+      if (theme === 'dark') {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('inbasekaran_theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      localStorage.setItem('inbasekaran_theme', next);
+    });
+
+    // One-Click Copy Email Buttons
+    document.querySelectorAll('.copy-email-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const email = btn.getAttribute('data-email') || 'inba.research.ilrl.labs@gmail.com';
+        try {
+          await navigator.clipboard.writeText(email);
+          const original = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => { btn.textContent = original; }, 1800);
+        } catch (e) {
+          window.location.href = 'mailto:' + email;
+        }
+      });
+    });
+
+    // Interactive Portrait Preview Uploader
+    const photoInput = document.getElementById('photoInput');
+    const portraitImg = document.getElementById('portraitImg');
+    const portraitPlaceholder = document.getElementById('portraitPlaceholder');
+
+    photoInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        portraitImg.src = ev.target.result;
+        portraitImg.style.display = 'block';
+        portraitPlaceholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>
