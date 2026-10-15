@@ -7,618 +7,99 @@
   <meta name="description" content="Personal academic and research portfolio of Inbasekaran S — Computer Science &amp; Engineering (Cyber Security) researcher at SRMIST focusing on LLM inference efficiency, Rényi-guided context pruning (EntroPrefill), hardware-aligned KV-cache management (Page-EntroKV), and zero-trust systems." />
   <link rel="canonical" href="https://inbasekaran.com/" />
   <style>
-    :root {
-      --bg: #fdfdfc;
-      --bg-elevated: #f6f5f2;
-      --bg-card-hover: #f1f0ec;
-      --text: #1c1c1c;
-      --text-secondary: #52524e;
-      --text-muted: #787772;
-      --accent: #1d4ed8;
-      --accent-hover: #1e40af;
-      --accent-subtle: rgba(29, 78, 216, 0.08);
-      --border: #e6e4dd;
-      --border-strong: #d4d1c7;
-      --badge-bg: #eef2ff;
-      --badge-text: #1e3a8a;
-      --highlight-bg: #fef9c3;
-      --highlight-text: #854d0e;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Newsreader", "Georgia", "Times New Roman", serif;
-      --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      --max-w: 850px;
-      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    [data-theme="dark"] {
-      --bg: #111110;
-      --bg-elevated: #1a1918;
-      --bg-card-hover: #222120;
-      --text: #ededeb;
-      --text-secondary: #b5b3ad;
-      --text-muted: #84827c;
-      --accent: #60a5fa;
-      --accent-hover: #93c5fd;
-      --accent-subtle: rgba(96, 165, 250, 0.12);
-      --border: #2a2927;
-      --border-strong: #3b3a37;
-      --badge-bg: rgba(96, 165, 250, 0.14);
-      --badge-text: #bfdbfe;
-      --highlight-bg: rgba(234, 179, 8, 0.16);
-      --highlight-text: #fde047;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transition: background-color var(--transition), color var(--transition);
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color var(--transition), opacity var(--transition);
-    }
-
-    a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    /* Sticky Minimalist Header */
-    header.site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0.9rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      font-weight: 600;
-      font-size: 1.02rem;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .brand:hover {
-      text-decoration: none;
-      color: var(--accent);
-    }
-
-    .brand-domain {
-      font-family: var(--font-mono);
-      font-size: 0.76rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      padding: 0.12rem 0.45rem;
-      border-radius: 4px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 450;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .theme-toggle {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .theme-toggle:hover {
-      color: var(--text);
-      border-color: var(--border-strong);
-    }
-
-    /* Main Content Container */
-    main {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 3rem 1.5rem 4.5rem;
-    }
-
-    /* Hero / Bio Section (Anna Min / Jon Barron Inspired Two-Column Layout) */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 195px;
-      gap: 2.5rem;
-      align-items: start;
-      margin-bottom: 3.25rem;
-    }
-
-    .hero-name {
-      font-size: 2.15rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1.2;
-      margin-bottom: 0.35rem;
-      color: var(--text);
-    }
-
-    .hero-subtitle {
-      font-size: 0.96rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.15rem;
-      font-weight: 450;
-    }
-
-    .hero-bio p {
-      font-size: 0.97rem;
-      color: var(--text);
-      margin-bottom: 0.85rem;
-    }
-
-    .hero-emails {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      margin: 1rem 0 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .email-line {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.45rem 0.75rem;
-    }
-
-    .copy-email-btn {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-family: var(--font-sans);
-      font-size: 0.73rem;
-      padding: 0.12rem 0.48rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .copy-email-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .social-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.48rem;
-      font-size: 0.92rem;
-      margin-top: 0.65rem;
-    }
-
-    .social-sep {
-      color: var(--border-strong);
-      user-select: none;
-    }
-
-    /* Portrait Card */
-    .portrait-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.55rem;
-    }
-
-    .portrait-frame {
-      width: 195px;
-      height: 230px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-      cursor: pointer;
-      transition: border-color var(--transition), transform var(--transition);
-    }
-
-    .portrait-frame:hover {
-      border-color: var(--border-strong);
-      transform: translateY(-2px);
-    }
-
-    .portrait-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-    }
-
-    .portrait-placeholder {
-      padding: 1.25rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      width: 100%;
-    }
-
-    .portrait-monogram {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      background: var(--accent-subtle);
-      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-      color: var(--accent);
-      font-family: var(--font-serif);
-      font-size: 1.65rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .portrait-caption {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      line-height: 1.35;
-    }
-
-    .portrait-hint {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 0.35rem;
-    }
-
-    /* Section Headings */
-    section {
-      margin-bottom: 3.1rem;
-      scroll-margin-top: 4.5rem;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 650;
-      letter-spacing: -0.015em;
-      color: var(--text);
-      padding-bottom: 0.45rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 1.15rem;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
-    .section-subtitle {
-      font-size: 0.94rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.25rem;
-    }
-
-    /* Recent Updates List (Anna Min style) */
-    .updates-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.68rem;
-      font-size: 0.94rem;
-    }
-
-    .update-item {
-      display: grid;
-      grid-template-columns: 115px 1fr;
-      gap: 0.75rem;
-      align-items: baseline;
-    }
-
-    .update-date {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* Research & Project Entries (Visual Schematic + Details Layout) */
-    .entry-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.75rem;
-    }
-
-    .entry-card {
-      display: grid;
-      grid-template-columns: 190px 1fr;
-      gap: 1.35rem;
-      align-items: start;
-      padding: 0.85rem;
-      margin: -0.85rem;
-      border-radius: 10px;
-      transition: background-color var(--transition);
-    }
-
-    .entry-card:hover {
-      background-color: var(--bg-elevated);
-    }
-
-    .entry-thumb {
-      width: 190px;
-      height: 126px;
-      border-radius: 7px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.35rem;
-    }
-
-    .entry-thumb svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .entry-title {
-      font-size: 1.02rem;
-      font-weight: 600;
-      line-height: 1.38;
-      color: var(--text);
-      margin-bottom: 0.28rem;
-    }
-
-    .entry-title a {
-      color: var(--text);
-    }
-
-    .entry-title a:hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .entry-authors {
-      font-size: 0.89rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.35rem;
-    }
-
-    .entry-authors strong {
-      color: var(--text);
-      font-weight: 600;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .entry-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.45rem;
-      font-size: 0.82rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .paper-links {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.1rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.76rem;
-      font-weight: 500;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-    }
-
-    .badge-highlight {
-      background: var(--highlight-bg);
-      color: var(--highlight-text);
-      font-weight: 600;
-    }
-
-    .entry-desc {
-      font-size: 0.91rem;
-      color: var(--text-secondary);
-      line-height: 1.58;
-    }
-
-    .entry-bullets {
-      margin-top: 0.45rem;
-      padding-left: 1.1rem;
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    /* Timeline Table for Awards, Internships, and Leadership (Anna Min Selected Awards style) */
-    .timeline-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-
-    .timeline-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 1rem;
-      align-items: baseline;
-    }
-
-    .timeline-period {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .timeline-main {
-      font-size: 0.94rem;
-    }
-
-    .timeline-title {
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .timeline-sub {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      margin-top: 0.15rem;
-    }
-
-    /* Compact Skills Grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 165px 1fr;
-      gap: 0.75rem 1rem;
-      font-size: 0.92rem;
-      align-items: baseline;
-    }
-
-    .skill-cat {
-      font-weight: 600;
-      color: var(--text);
-      font-size: 0.88rem;
-    }
-
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.38rem;
-    }
-
-    .skill-tag {
-      font-size: 0.82rem;
-      padding: 0.14rem 0.55rem;
-      border-radius: 4px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.75rem;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 680px) {
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .portrait-wrap {
-        order: -1;
-        align-items: flex-start;
-      }
-      .entry-card {
-        grid-template-columns: 1fr;
-      }
-      .entry-thumb {
-        width: 100%;
-        height: 135px;
-      }
-      .update-item,
-      .timeline-row,
-      .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 0.2rem;
-      }
-      .timeline-row {
-        margin-bottom: 0.35rem;
-      }
-    }
-
-    @media print {
-      header.site-header, .theme-toggle, .copy-email-btn, .portrait-hint {
-        display: none !important;
-      }
-      body {
-        background: #fff;
-        color: #000;
-      }
-      main {
-        padding: 0;
-      }
-    }
+    :root { color-scheme: light; --bg:#fff; --bg-elevated:#f5f5f7; --bg-card-hover:#eeeef0; --text:#1d1d1f; --text-secondary:#5b5b63; --text-muted:#686870; --accent:#0066cc; --accent-hover:#004d99; --accent-subtle:#e8f1fc; --border:#e5e5e9; --border-strong:#bdbdc4; --badge-bg:#eaf2fc; --badge-text:#0053a6; --highlight-bg:#e9f4ed; --highlight-text:#21633b; --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; --font-mono:"SFMono-Regular",Consolas,monospace; }
+    [data-theme="dark"] { color-scheme:dark; --bg:#101012; --bg-elevated:#1c1c1f; --bg-card-hover:#252529; --text:#f5f5f7; --text-secondary:#b1b1b9; --text-muted:#a0a0aa; --accent:#78b7ff; --accent-hover:#abd3ff; --accent-subtle:#192c43; --border:#333338; --border-strong:#62626b; --badge-bg:#192c43; --badge-text:#9acbff; --highlight-bg:#193026; --highlight-text:#a2dfb7; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; scroll-padding-top:100px; }
+    body { background:var(--bg); color:var(--text); font:16px/1.65 var(--font-sans); -webkit-font-smoothing:antialiased; }
+    a { color:var(--accent); text-decoration:none; text-underline-offset:4px; }
+    a:hover { text-decoration:underline; }
+    button { font:inherit; cursor:pointer; }
+    :focus-visible { outline:3px solid var(--accent); outline-offset:5px; border-radius:4px; }
+    ::selection { background:var(--accent-subtle); color:var(--text); }
+    .skip-link { position:fixed; left:16px; top:-80px; z-index:100; padding:10px 18px; background:var(--bg); color:var(--text); border:1px solid var(--border); }
+    .skip-link:focus { top:10px; }
+    .site-header { position:sticky; top:0; z-index:50; background:var(--bg); background:color-mix(in srgb,var(--bg) 88%,transparent); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .nav-container { max-width:1176px; padding:17px 28px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { color:var(--text); font-size:17px; font-weight:650; letter-spacing:-.5px; white-space:nowrap; }
+    .brand-domain { display:none; }
+    .nav-links { display:flex; align-items:center; gap:26px; }
+    .nav-links a { color:var(--text-secondary); font-size:12px; }
+    .nav-links a:hover { color:var(--text); text-decoration:none; }
+    .theme-toggle { display:grid; place-items:center; width:36px; height:36px; border:1px solid var(--border); border-radius:50%; background:transparent; color:var(--text); }
+    main { max-width:1176px; margin:auto; padding:0 28px; }
+    .hero { display:grid; grid-template-columns:1.15fr 1fr; gap:64px; align-items:center; padding:82px 0 76px; }
+    .eyebrow { text-transform:uppercase; font-size:11px; font-weight:650; letter-spacing:2px; color:var(--text-secondary); margin-bottom:22px; }
+    .hero-name { font-size:clamp(48px,5.3vw,72px); line-height:1.02; letter-spacing:-3.8px; font-weight:650; margin-bottom:22px; }
+    .hero-subtitle { font-size:24px; line-height:1.25; letter-spacing:-.7px; max-width:420px; margin-bottom:20px; color:var(--text-secondary); }
+    .hero-summary { max-width:440px; font-size:16px; color:var(--text-secondary); }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:30px 0 24px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:12px 23px; border-radius:999px; background:var(--accent); color:var(--bg); font-size:14px; font-weight:550; min-height:48px; transition:transform .2s,background .2s; }
+    [data-theme="dark"] .button { color:#101012; }
+    .button:hover { background:var(--accent-hover); transform:translateY(-2px); text-decoration:none; }
+    .button-secondary { background:var(--bg-elevated); color:var(--text); }
+    [data-theme="dark"] .button-secondary { color:var(--text); }
+    .button-secondary:hover { background:var(--bg-card-hover); }
+    .social-row { display:flex; flex-wrap:wrap; gap:20px; font-size:12px; }
+    .social-row a { color:var(--text-secondary); }
+    .portrait-wrap { margin:0; }
+    .portrait-frame { overflow:hidden; border-radius:28px; background:#727272; aspect-ratio:1/1.12; }
+    .portrait-frame img { width:100%; height:100%; object-fit:cover; object-position:50% 35%; display:block; }
+    .portrait-note { display:flex; justify-content:space-between; gap:16px; font-size:11px; color:var(--text-muted); padding:13px 3px 0; }
+    .about-strip { display:grid; grid-template-columns:1fr 2fr; gap:60px; background:var(--bg-elevated); border-radius:24px; padding:36px 40px; margin-bottom:90px; }
+    .about-strip h2 { font-size:24px; font-weight:600; letter-spacing:-.7px; line-height:1.25; }
+    .hero-bio p { font-size:14px; color:var(--text-secondary); margin-bottom:12px; }
+    .hero-bio p:last-child { margin-bottom:0; }
+    section { margin-bottom:88px; scroll-margin-top:100px; }
+    .section-title { font-size:clamp(28px,3.1vw,40px); font-weight:600; letter-spacing:-1.5px; line-height:1.15; margin-bottom:22px; }
+    .section-subtitle { max-width:710px; font-size:16px; color:var(--text-secondary); margin-bottom:30px; }
+    .entry-list { display:grid; gap:20px; }
+    .entry-card { display:grid; grid-template-columns:200px minmax(0,1fr); gap:32px; padding:34px; background:var(--bg-elevated); border:1px solid transparent; border-radius:24px; transition:border-color .2s; }
+    .entry-card:hover { border-color:var(--border-strong); }
+    .entry-thumb { align-self:start; padding:18px 4px; }
+    .entry-thumb svg { width:100%; height:auto; display:block; }
+    .entry-title { font-size:21px; line-height:1.35; font-weight:600; letter-spacing:-.6px; margin-bottom:12px; }
+    .entry-title a { color:var(--text); }
+    .entry-authors { color:var(--text-secondary); font-size:12px; margin-bottom:14px; }
+    .entry-meta { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; }
+    .badge { display:inline-block; border-radius:7px; padding:4px 9px; background:var(--badge-bg); color:var(--badge-text); font-size:10px; font-weight:600; }
+    .badge-highlight { background:var(--highlight-bg); color:var(--highlight-text); }
+    .paper-links { font-size:11px; }
+    .entry-desc { font-size:14px; color:var(--text-secondary); }
+    .entry-bullets { padding-left:18px; font-size:12px; color:var(--text-secondary); margin-top:15px; }
+    .entry-bullets li + li { margin-top:7px; }
+    .updates-list { list-style:none; }
+    .update-item { display:grid; grid-template-columns:140px minmax(0,1fr); gap:30px; padding:20px 0; border-bottom:1px solid var(--border); font-size:14px; color:var(--text-secondary); }
+    .update-date { color:var(--text-muted); font-size:12px; padding-top:3px; }
+    .timeline-row { display:grid; grid-template-columns:190px minmax(0,1fr); gap:38px; border-top:1px solid var(--border); padding:23px 0; }
+    .timeline-period { font-size:12px; color:var(--text-muted); padding-top:3px; }
+    .timeline-title { font-weight:600; font-size:16px; letter-spacing:-.25px; }
+    .timeline-title a { color:var(--text); }
+    .timeline-sub { font-size:14px; color:var(--text-secondary); margin-top:7px; max-width:730px; }
+    #writing .entry-card { background:var(--text); color:var(--bg); padding:46px; }
+    #writing .entry-title a,#writing .entry-desc a { color:inherit; }
+    #writing .entry-authors,#writing .entry-desc { color:var(--bg); opacity:.8; }
+    #writing .entry-thumb { background:var(--bg-elevated); border-radius:16px; }
+    .contact { padding:70px 40px; border-radius:28px; background:var(--bg-elevated); text-align:center; margin-bottom:60px; }
+    .contact .eyebrow { margin-bottom:14px; }
+    .contact h2 { font-size:clamp(32px,4vw,52px); line-height:1.1; font-weight:600; letter-spacing:-2px; margin-bottom:18px; }
+    .contact p { color:var(--text-secondary); margin-bottom:26px; }
+    .contact-email { display:block; font-size:14px; overflow-wrap:anywhere; margin-top:22px; }
+    .copy-email-btn { background:transparent; color:var(--text-secondary); border:1px solid var(--border-strong); border-radius:999px; padding:9px 17px; font-size:12px; margin-top:14px; min-height:40px; }
+    footer { display:flex; justify-content:space-between; gap:24px; border-top:1px solid var(--border); padding:25px 0 36px; font-size:11px; color:var(--text-muted); }
+    footer a { color:var(--text-secondary); }
+    code { font-family:var(--font-mono); font-size:.9em; overflow-wrap:anywhere; }
+    @media(min-width:1000px) { #research .entry-card:first-child { padding-top:42px; padding-bottom:42px; } }
+    @media(max-width:900px) { .hero { gap:32px; padding-top:60px; } .hero-name { letter-spacing:-2.8px; } .hero-subtitle { font-size:21px; } .about-strip { gap:30px; padding:30px; } .entry-card { grid-template-columns:150px minmax(0,1fr); gap:24px; padding:28px; } }
+    @media(max-width:680px) { .nav-container { padding:12px 20px; gap:12px; } .brand { font-size:15px; } .nav-links { gap:15px; } .nav-links a { font-size:11px; } .nav-links a[href="#awards"],.nav-links a[href="#service"] { display:none; } main { padding:0 20px; } .hero { grid-template-columns:1fr; gap:36px; padding:48px 0 40px; } .hero-name { font-size:56px; } .hero-subtitle { max-width:350px; font-size:23px; } .hero-summary { max-width:none; } .portrait-frame { max-height:480px; aspect-ratio:1/1; } .portrait-note { font-size:10px; } .about-strip { grid-template-columns:1fr; gap:18px; padding:26px; margin-bottom:60px; } section { margin-bottom:60px; } .section-title { letter-spacing:-1px; } .entry-card { grid-template-columns:1fr; gap:16px; padding:24px; } .entry-thumb { max-width:200px; padding:0; } .entry-title { font-size:19px; } .timeline-row { grid-template-columns:1fr; gap:8px; padding:20px 0; } .update-item { grid-template-columns:1fr; gap:7px; } #writing .entry-card { padding:28px; } #writing .entry-thumb { padding:12px; } .contact { padding:42px 22px; } footer { flex-direction:column; gap:8px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none!important; animation:none!important; } }
+    @media print { .site-header,.hero-actions,.copy-email-btn { display:none; } body { background:white; color:black; } main { max-width:none; } .hero { padding:20px 0; } section { margin-bottom:30px; } .entry-card,.timeline-row { break-inside:avoid; } }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#top">Skip to content</a>
 
-  <!-- Minimalist Sticky Navigation -->
+
   <header class="site-header">
     <div class="nav-container">
       <a href="#top" class="brand">
@@ -629,7 +110,8 @@
         <a href="#research">Research</a>
         <a href="#awards">Awards</a>
         <a href="#service">Service</a>
-        <a href="#writing">Book</a>
+        <a href="#writing">Writing</a>
+        <a href="mailto:inba.research.ilrl.labs@gmail.com">Contact</a>
         <button class="theme-toggle" id="themeToggle" type="button" title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
           <svg id="sunIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
             <circle cx="12" cy="12" r="5"></circle>
@@ -651,12 +133,29 @@
   </header>
 
   <main id="top">
-    <!-- Hero Section -->
-    <div class="hero">
+    <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-content">
-        <h1 class="hero-name">Inbasekaran S</h1>
-        <p class="hero-subtitle">AI Systems &amp; LLM Inference Researcher · B.Tech CSE (Cyber Security) at SRMIST</p>
-
+        <p class="eyebrow">Researcher · Builder · Author</p>
+        <h1 class="hero-name" id="hero-heading">Inbasekaran S<span style="color:var(--accent)">.</span></h1>
+        <p class="hero-subtitle">Making intelligence<br>more efficient.</p>
+        <p class="hero-summary">I study LLM inference and memory systems. Exploring how information theory and thoughtful systems design can make AI do more with less.</p>
+        <div class="hero-actions">
+          <a class="button" href="#research">Explore my research <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="mailto:inba.research.ilrl.labs@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="social-row" aria-label="Social profiles">
+          <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
+          <a href="https://github.com/bruce12-glitch" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/inbasekaran-s-106a90383/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </div>
+      <figure class="portrait-wrap">
+        <div class="portrait-frame"><img src="assets/inbasekaran-portrait.jpg" alt="Inbasekaran S in a black blazer, photographed in black and white" width="1254" height="1254" fetchpriority="high" decoding="async"></div>
+        <figcaption class="portrait-note"><span>Based in India</span><span>AI systems &amp; LLM inference</span></figcaption>
+      </figure>
+    </section>
+    <aside class="about-strip" aria-labelledby="about-heading">
+      <h2 id="about-heading">Curiosity, translated<br>into systems.</h2>
         <div class="hero-bio">
           <p>
             Hi! I am a pre-final-year undergraduate studying Computer Science and Engineering (Cyber Security) at
@@ -671,73 +170,11 @@
             <em><a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Neither Living Nor Dying: Reflection of the Middle</a></em>.
           </p>
         </div>
-
-        <div class="hero-emails">
-          <div class="email-line">
-            <span>Research email: <a href="mailto:inba.research.ilrl.labs@gmail.com">inba.research.ilrl.labs@gmail.com</a></span>
-            <button class="copy-email-btn" data-email="inba.research.ilrl.labs@gmail.com" type="button">Copy</button>
-          </div>
-          
-        </div>
-
-        <div class="social-row">
-          <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en&amp;authuser=5" target="_blank" rel="noopener">Google Scholar</a>
-          <span class="social-sep">/</span>
-          <a href="mailto:inba.research.ilrl.labs@gmail.com">Email</a>
-          <span class="social-sep">/</span>
-          <a href="https://github.com/bruce12-glitch" target="_blank" rel="noopener">GitHub</a>
-          <span class="social-sep">/</span>
-          <a href="https://www.linkedin.com/in/inbasekaran-s-106a90383/" target="_blank" rel="noopener">LinkedIn</a>
-          <span class="social-sep">/</span>
-          <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Book</a>
-          
-        </div>
-      </div>
-
-      <!-- Portrait Column (with interactive click-to-preview photo uploader) -->
-      <div class="portrait-wrap">
-        <label class="portrait-frame" for="photoInput" title="Click to preview your portrait photo">
-          <img id="portraitImg" alt="Portrait of Inbasekaran S" />
-          <div class="portrait-placeholder" id="portraitPlaceholder">
-            <div class="portrait-monogram">IS</div>
-            <div class="portrait-caption">Inbasekaran S</div>
-            <div class="portrait-hint">Click to preview portrait<br/>or add <code>profile.jpg</code></div>
-          </div>
-        </label>
-        <input type="file" id="photoInput" accept="image/*" style="display:none;" />
-      </div>
-    </div>
-
-    <!-- Recent Updates -->
-    <section id="updates">
-      <h2 class="section-title">Recent Updates</h2>
-      <ul class="updates-list">
-        <li class="update-item">
-          <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>), guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">TUM</a>).</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>), guided by Sobin C.C (<a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>).</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Jul – Aug 2026</span>
-          <span>Completed the <strong>AICTE AWS Gen AI Virtual Internship</strong>, designing model training and evaluation labs on Amazon SageMaker and AWS Academy.</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Apr – Jun 2026</span>
-          <span>Completed the <strong>AICTE Google AI/ML Virtual Internship</strong> focused on applied machine learning labs and systems exercises.</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">2025 – 2026</span>
-          <span>Recognized as <strong>Winner of the Raccoon AI Hackathon</strong>, <strong>National Finalist at Shark Tank Nationals</strong>, and ranked in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turks.</span>
-        </li>
-      </ul>
-    </section>
+    </aside>
 
     <!-- Research / Selected Publications Section -->
     <section id="research">
-      <h2 class="section-title">Selected Publications &amp; Research</h2>
+      <h2 class="section-title">Selected research.</h2>
       <p class="section-subtitle">
         I study efficient LLM inference, information-theoretic attention and context pruning, hardware-aligned KV-cache allocation under grouped-query attention, and zero-trust cryptographic systems.
       </p>
@@ -878,9 +315,36 @@
       </div>
     </section>
 
+    <!-- Recently. -->
+    <section id="updates">
+      <h2 class="section-title">Recently.</h2>
+      <ul class="updates-list">
+        <li class="update-item">
+          <span class="update-date">Oct. 2026</span>
+          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>), guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">TUM</a>).</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Oct. 2026</span>
+          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>), guided by Sobin C.C (<a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>).</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Jul – Aug 2026</span>
+          <span>Completed the <strong>AICTE AWS Gen AI Virtual Internship</strong>, designing model training and evaluation labs on Amazon SageMaker and AWS Academy.</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">Apr – Jun 2026</span>
+          <span>Completed the <strong>AICTE Google AI/ML Virtual Internship</strong> focused on applied machine learning labs and systems exercises.</span>
+        </li>
+        <li class="update-item">
+          <span class="update-date">2025 – 2026</span>
+          <span>Recognized as <strong>Winner of the Raccoon AI Hackathon</strong>, <strong>National Finalist at Shark Tank Nationals</strong>, and ranked in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turks.</span>
+        </li>
+      </ul>
+    </section>
+
     <!-- Experience & Education Section -->
     <section id="experience">
-      <h2 class="section-title">Internships &amp; Education</h2>
+      <h2 class="section-title">Learning &amp; experience.</h2>
       <div class="timeline-list">
         <div class="timeline-row">
           <div class="timeline-period">Jul – Aug 2026</div>
@@ -919,7 +383,7 @@
 
     <!-- Selected Awards & Certifications -->
     <section id="awards">
-      <h2 class="section-title">Selected Awards &amp; Certifications</h2>
+      <h2 class="section-title">Recognition.</h2>
       <div class="timeline-list">
         <div class="timeline-row">
           <div class="timeline-period">Hackathon Winner</div>
@@ -975,7 +439,7 @@
 
     <!-- Leadership, Campus Service & Technical Skills -->
     <section id="service">
-      <h2 class="section-title">Service &amp; Campus Leadership</h2>
+      <h2 class="section-title">Beyond the research.</h2>
       <div class="timeline-list" style="margin-bottom: 2.5rem;">
         <div class="timeline-row">
           <div class="timeline-period">Aug 2025 – Aug 2026</div>
@@ -1006,9 +470,9 @@
             </div>
           </div>
         </div>
-      </div></section><!-- Misc / Authored Book Section (matching Anna Min's Misc section) -->
+      </div></section>
     <section id="writing">
-      <h2 class="section-title">Misc: Books &amp; Writing</h2>
+      <h2 class="section-title">A different kind of exploration.</h2>
       <div class="entry-list">
         <article class="entry-card">
           <div class="entry-thumb" aria-hidden="true">
@@ -1049,75 +513,51 @@
       </div>
     </section>
 
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <p class="eyebrow">Let's connect</p>
+      <h2 id="contact-heading">Good ideas start<br>with a conversation.</h2>
+      <p>For research, collaborations, or a thoughtful hello.</p>
+      <a class="button" href="mailto:inba.research.ilrl.labs@gmail.com">Send me an email <span aria-hidden="true">↗</span></a>
+      <a class="contact-email" href="mailto:inba.research.ilrl.labs@gmail.com">inba.research.ilrl.labs@gmail.com</a>
+      <button class="copy-email-btn" data-email="inba.research.ilrl.labs@gmail.com" type="button" aria-live="polite">Copy email address</button>
+    </section>
     <footer>
-      <div>
-        © 2026 Inbasekaran S · <strong>inbasekaran.com</strong> ·
-        <a href="https://github.com/bruce12-glitch/Inbasekaran" target="_blank" rel="noopener">Source Repository</a>
-      </div>
-      <div>Minimalist academic layout inspired by <a href="https://anna-min.com/" target="_blank" rel="noopener">Anna Min</a> &amp; Jonathan Barron</div>
+      <span>© 2026 Inbasekaran S</span>
+      <span>Research with purpose. Systems with care.</span>
+      <a href="mailto:inba.research.ilrl.labs@gmail.com">Email ↗</a>
     </footer>
   </main>
 
   <script>
-    // Light / Dark Theme Toggle
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
-
+    const preference = window.matchMedia('(prefers-color-scheme: dark)');
+    let savedTheme;
+    try { savedTheme = localStorage.getItem('inbasekaran_theme'); } catch (_) {}
     function applyTheme(theme) {
-      htmlEl.setAttribute('data-theme', theme);
-      if (theme === 'dark') {
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
-      } else {
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
-      }
+      htmlEl.dataset.theme = theme;
+      document.getElementById('sunIcon').style.display = theme === 'dark' ? 'block' : 'none';
+      document.getElementById('moonIcon').style.display = theme === 'dark' ? 'none' : 'block';
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance');
+      themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
     }
-
-    const savedTheme = localStorage.getItem('inbasekaran_theme');
-    if (savedTheme) {
-      applyTheme(savedTheme);
-    }
-
+    applyTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : preference.matches ? 'dark' : 'light');
     themeToggle.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-theme') || 'light';
-      const next = current === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      localStorage.setItem('inbasekaran_theme', next);
+      savedTheme = htmlEl.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(savedTheme);
+      try { localStorage.setItem('inbasekaran_theme', savedTheme); } catch (_) {}
     });
-
-    // One-Click Copy Email Buttons
-    document.querySelectorAll('.copy-email-btn').forEach((btn) => {
+    preference.addEventListener('change', event => { if (!savedTheme) applyTheme(event.matches ? 'dark' : 'light'); });
+    document.querySelectorAll('.copy-email-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
-        const email = btn.getAttribute('data-email') || 'inba.research.ilrl.labs@gmail.com';
         try {
-          await navigator.clipboard.writeText(email);
-          const original = btn.textContent;
-          btn.textContent = 'Copied!';
-          setTimeout(() => { btn.textContent = original; }, 1800);
-        } catch (e) {
-          window.location.href = 'mailto:' + email;
+          await navigator.clipboard.writeText(btn.dataset.email);
+          btn.textContent = 'Email copied';
+        } catch (_) {
+          btn.textContent = 'Select the email address above to copy';
         }
+        window.setTimeout(() => { btn.textContent = 'Copy email address'; }, 2500);
       });
-    });
-
-    // Interactive Portrait Preview Uploader
-    const photoInput = document.getElementById('photoInput');
-    const portraitImg = document.getElementById('portraitImg');
-    const portraitPlaceholder = document.getElementById('portraitPlaceholder');
-
-    photoInput.addEventListener('change', (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        portraitImg.src = ev.target.result;
-        portraitImg.style.display = 'block';
-        portraitPlaceholder.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
     });
   </script>
 </body>
