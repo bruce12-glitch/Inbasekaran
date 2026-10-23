@@ -32,7 +32,9 @@
     .eyebrow { text-transform:uppercase; font-size:11px; font-weight:650; letter-spacing:2px; color:var(--text-secondary); margin-bottom:22px; }
     .hero-name { font-size:clamp(48px,5.3vw,72px); line-height:1.02; letter-spacing:-3.8px; font-weight:650; margin-bottom:22px; }
     .hero-subtitle { font-size:24px; line-height:1.25; letter-spacing:-.7px; max-width:420px; margin-bottom:20px; color:var(--text-secondary); }
-    .hero-summary { max-width:440px; font-size:16px; color:var(--text-secondary); }
+    .hero-summary { max-width:500px; font-size:16px; line-height:1.65; color:var(--text-secondary); }
+    .hero-summary-lead { display:block; color:var(--text); font-size:18px; font-weight:600; letter-spacing:-.3px; }
+    .hero-summary-detail { display:block; margin-top:7px; }
     .hero-actions { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:30px 0 24px; }
     .button { display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:12px 23px; border-radius:999px; background:var(--accent); color:var(--bg); font-size:14px; font-weight:550; min-height:48px; transition:transform .2s,background .2s; }
     [data-theme="dark"] .button { color:#101012; }
@@ -79,7 +81,10 @@
     #writing .entry-card { background:var(--text); color:var(--bg); padding:46px; }
     #writing .entry-title a,#writing .entry-desc a { color:inherit; }
     #writing .entry-authors,#writing .entry-desc { color:var(--bg); opacity:.8; }
-    #writing .entry-thumb { background:var(--bg-elevated); border-radius:16px; }
+    #writing .entry-thumb { align-self:center; padding:0 8px; background:transparent; border-radius:0; }
+    .book-cover { display:block; width:min(100%,154px); margin:auto; overflow:hidden; border-radius:3px 8px 8px 3px; box-shadow:-7px 10px 20px rgba(0,0,0,.32), 0 1px 0 rgba(255,255,255,.22) inset; transform:rotate(-2deg); transition:transform .24s ease,box-shadow .24s ease; }
+    .book-cover:hover { transform:rotate(0) translateY(-4px); box-shadow:-10px 15px 28px rgba(0,0,0,.38), 0 1px 0 rgba(255,255,255,.25) inset; }
+    .book-cover img { display:block; width:100%; height:auto; aspect-ratio:432/631; object-fit:cover; }
     .contact { padding:70px 40px; border-radius:28px; background:var(--bg-elevated); text-align:center; margin-bottom:60px; }
     .contact .eyebrow { margin-bottom:14px; }
     .contact h2 { font-size:clamp(32px,4vw,52px); line-height:1.1; font-weight:600; letter-spacing:-2px; margin-bottom:18px; }
@@ -91,7 +96,7 @@
     code { font-family:var(--font-mono); font-size:.9em; overflow-wrap:anywhere; }
     @media(min-width:1000px) { #research .entry-card:first-child { padding-top:42px; padding-bottom:42px; } }
     @media(max-width:900px) { .hero { gap:32px; padding-top:60px; } .hero-name { letter-spacing:-2.8px; } .hero-subtitle { font-size:21px; } .about-strip { gap:30px; padding:30px; } .entry-card { grid-template-columns:150px minmax(0,1fr); gap:24px; padding:28px; } }
-    @media(max-width:680px) { .nav-container { padding:12px 20px; gap:12px; } .brand { font-size:15px; } .nav-links { gap:15px; } .nav-links a { font-size:11px; } .nav-links a[href="#awards"],.nav-links a[href="#service"] { display:none; } main { padding:0 20px; } .hero { grid-template-columns:1fr; gap:36px; padding:48px 0 40px; } .hero-name { font-size:56px; } .hero-subtitle { max-width:350px; font-size:23px; } .hero-summary { max-width:none; } .portrait-frame { max-height:480px; aspect-ratio:1/1; } .portrait-note { font-size:10px; } .about-strip { grid-template-columns:1fr; gap:18px; padding:26px; margin-bottom:60px; } section { margin-bottom:60px; } .section-title { letter-spacing:-1px; } .entry-card { grid-template-columns:1fr; gap:16px; padding:24px; } .entry-thumb { max-width:200px; padding:0; } .entry-title { font-size:19px; } .timeline-row { grid-template-columns:1fr; gap:8px; padding:20px 0; } .update-item { grid-template-columns:1fr; gap:7px; } #writing .entry-card { padding:28px; } #writing .entry-thumb { padding:12px; } .contact { padding:42px 22px; } footer { flex-direction:column; gap:8px; } }
+    @media(max-width:680px) { .nav-container { padding:12px 20px; gap:12px; } .brand { font-size:15px; } .nav-links { gap:15px; } .nav-links a { font-size:11px; } .nav-links a[href="#awards"],.nav-links a[href="#service"] { display:none; } main { padding:0 20px; } .hero { grid-template-columns:1fr; gap:36px; padding:48px 0 40px; } .hero-name { font-size:56px; } .hero-subtitle { max-width:350px; font-size:23px; } .hero-summary { max-width:none; } .hero-summary-lead { font-size:17px; } .portrait-frame { max-height:480px; aspect-ratio:1/1; } .portrait-note { font-size:10px; } .about-strip { grid-template-columns:1fr; gap:18px; padding:26px; margin-bottom:60px; } section { margin-bottom:60px; } .section-title { letter-spacing:-1px; } .entry-card { grid-template-columns:1fr; gap:16px; padding:24px; } .entry-thumb { max-width:200px; padding:0; } .entry-title { font-size:19px; } .timeline-row { grid-template-columns:1fr; gap:8px; padding:20px 0; } .update-item { grid-template-columns:1fr; gap:7px; } #writing .entry-card { padding:28px; } #writing .entry-thumb { padding:0 8px; max-width:none; } .book-cover { width:148px; } .contact { padding:42px 22px; } footer { flex-direction:column; gap:8px; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none!important; animation:none!important; } }
     @media print { .site-header,.hero-actions,.copy-email-btn { display:none; } body { background:white; color:black; } main { max-width:none; } .hero { padding:20px 0; } section { margin-bottom:30px; } .entry-card,.timeline-row { break-inside:avoid; } }
   </style>
@@ -138,7 +143,10 @@
         <p class="eyebrow">Researcher · Builder · Author</p>
         <h1 class="hero-name" id="hero-heading">Inbasekaran S<span style="color:var(--accent)">.</span></h1>
         <p class="hero-subtitle">Making intelligence<br>more efficient.</p>
-        <p class="hero-summary">I study LLM inference and memory systems. Exploring how information theory and thoughtful systems design can make AI do more with less.</p>
+        <p class="hero-summary">
+          <span class="hero-summary-lead">I study LLM inference and memory systems.</span>
+          <span class="hero-summary-detail">Exploring how information theory and thoughtful systems design can make AI do more with less.</span>
+        </p>
         <div class="hero-actions">
           <a class="button" href="#research">Explore my research <span aria-hidden="true">↗</span></a>
           <a class="button button-secondary" href="mailto:inba.research.ilrl.labs@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
@@ -204,9 +212,7 @@
                 EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation
               </a>
             </h3>
-            <div class="entry-authors">
-              <strong>Inbasekaran S</strong> · Guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">Technical University of Munich, TUM</a>)
-            </div>
+            <div class="entry-authors"><strong>Inbasekaran S</strong></div>
             <div class="entry-meta">
               <span class="badge">arXiv:2610.09757v1 [cs.LG] · Oct 2026</span>
               <span class="badge badge-highlight">-43.1% TTFT</span>
@@ -252,9 +258,7 @@
                 Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention
               </a>
             </h3>
-            <div class="entry-authors">
-              <strong>Inbasekaran S</strong> · Guided by Sobin C.C (Senior Faculty, <a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>)
-            </div>
+            <div class="entry-authors"><strong>Inbasekaran S</strong></div>
             <div class="entry-meta">
               <span class="badge">arXiv:2610.03135v1 · Oct 2026</span>
               <span class="badge badge-highlight">UOR 1.000 · 100% Needle Recall</span>
@@ -321,11 +325,11 @@
       <ul class="updates-list">
         <li class="update-item">
           <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>), guided by Sebastian Sanokowski (<a href="https://www.tum.de/en/" target="_blank" rel="noopener">TUM</a>).</span>
+          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: Rényi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>).</span>
         </li>
         <li class="update-item">
           <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>), guided by Sobin C.C (<a href="https://www.amrita.edu/" target="_blank" rel="noopener">Amrita University</a>).</span>
+          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>).</span>
         </li>
         <li class="update-item">
           <span class="update-date">Jul – Aug 2026</span>
@@ -475,18 +479,10 @@
       <h2 class="section-title">A different kind of exploration.</h2>
       <div class="entry-list">
         <article class="entry-card">
-          <div class="entry-thumb" aria-hidden="true">
-            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
-              <rect x="58" y="16" width="64" height="78" rx="3" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.4" />
-              <line x1="65" y1="16" x2="65" y2="94" stroke="var(--border-strong)" stroke-width="1" />
-              <text x="72" y="36" fill="var(--text)" font-family="serif" font-weight="bold" font-size="7.5">Neither Living</text>
-              <text x="72" y="46" fill="var(--text)" font-family="serif" font-weight="bold" font-size="7.5">Nor Dying</text>
-              <line x1="72" y1="53" x2="112" y2="53" stroke="var(--accent)" stroke-width="1" />
-              <text x="72" y="63" fill="var(--text-secondary)" font-family="serif" font-style="italic" font-size="6">Reflection of</text>
-              <text x="72" y="71" fill="var(--text-secondary)" font-family="serif" font-style="italic" font-size="6">the Middle</text>
-              <text x="72" y="86" fill="var(--text-muted)" font-family="monospace" font-size="5.5">Inbasekaran S</text>
-            </svg>
+          <div class="entry-thumb">
+            <a class="book-cover" href="https://a.co/d/08D406kn" target="_blank" rel="noopener">
+              <img src="assets/neither-living-nor-dying-cover.webp" alt="Book cover for Neither Living Nor Dying: Reflections on the Middle by Inbasekaran S" width="300" height="438" loading="lazy" decoding="async">
+            </a>
           </div>
           <div class="entry-body">
             <h3 class="entry-title">
