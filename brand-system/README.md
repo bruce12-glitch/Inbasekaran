@@ -8,4 +8,7 @@ Visual refresh, 24 October 2026. The attached Notion analysis defines purple pri
 - accessibility.md: computed text/surface contrast matrix.
 - moodboard.html and applications.html: palette and authentic portfolio applications.
 
-The actual styles live in ../assets/studio.css and ../assets/mascots/studio-mascots.css. Fonts are self-hosted with OFL licenses. User-supplied Notion typography supersedes Designer Skill's general font-discovery exclusions. No Notion affiliation is implied. Portfolio content is preserved; the visual composition is rebuilt.
+The actual styles live in ../assets/studio.css. Fonts are self-hosted with OFL licenses. User-supplied Notion typography supersedes Designer Skill's general font-discovery exclusions. No Notion affiliation is implied. Original achievements and research measurements are retained; prose is rewritten in a direct first-person voice.
+
+## 24 October refinement
+Research cards now use complete pastel surfaces without diagram thumbnails. Biography and project summaries use direct first-person copy. Supplied section drawings sit in normal flow. The 3D mascot component is removed; an optional, reduced-motion-aware plum pointer effect replaces its header control.

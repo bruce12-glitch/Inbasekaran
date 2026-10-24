@@ -1,6 +1,6 @@
 # Inbasekaran S — Voice
 
-Precise about LLM inference, explicit about source evidence, and first-person about learning. New wording is restricted to section labels and navigation; the original substantive portfolio descriptions are retained.
+Precise about LLM inference, explicit about source evidence, and first-person about learning. Use direct first-person sentences for the biography, research summaries, and experience. The owner supplied the reading, psychology, psychoanalysis, finance, mathematics, information theory, and AGI inference interests. Present AGI as an interest, without claiming a completed AGI result. Preserve paper titles, dates, measurements, affiliations, and award outcomes from the existing portfolio.
 
 | We are | We are not |
 |---|---|
@@ -35,6 +35,6 @@ Precise about LLM inference, explicit about source evidence, and first-person ab
 10. “I work at a named frontier lab.” — unverified affiliation.
 
 ## Microcopy
-Primary: “Explore my research”. Success: “Email copied”. Clipboard fallback: “Select the email address above to copy”.
+Primary: “Explore my research”. Success: “Email copied”. Clipboard fallback: “Email selected — press Ctrl/Cmd+C”.
 
 Banned: empower, elevate, seamless, delight, unleash, revolutionary, world-class, best-in-class, and unsupported superlatives.

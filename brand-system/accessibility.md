@@ -83,4 +83,9 @@ White on primary: 6.57:1. White on pressed: 8.77:1.
 Pastels and hairlines are surfaces or decoration, never text on white. Input/control boundaries use the stronger control border. Focus uses 3px purple, offset 5px.
 
 ## Reflow and interaction
-Native disclosures accept Enter and Space. Menus close with Escape. Motion is pausable and follows prefers-reduced-motion. Light surfaces are enforced regardless of saved theme. Static illustrations remain visible when 3D is unavailable.
+Native technical-note disclosures accept Enter and Space. Menus close with Escape. Section drawings are static images in normal layout flow. No illustration panels, canvases, or 3D controls remain in the page. Light surfaces are enforced regardless of saved theme.
+
+The cursor effect is optional and disabled for reduced-motion or coarse/touch pointers. Its arrow retains a precise hotspot, the ring has pointer-events: none, and keyboard focus does not rely on it. The ring’s translucent colors are decorative; the arrow stroke uses the AA-capable plum token. Every animation frame stops after the ring settles, and leaves/visibility changes cancel pending frames.
+
+## Checks for this refinement
+Browser layout review covered 320, 390, 768, 1024, and 1280px frames. Text was also enlarged to 200% in the QA fixture at 320 and 390px; this is a text enlargement check, not a simulated OS setting. Native technical-note expansion, mobile menu Enter/Escape, cursor activation and off switch, and email copying were exercised. Reduced-motion and coarse-pointer guards are present in CSS and JavaScript; those OS/device modes were reviewed in source rather than emulated.
