@@ -1,0 +1,347 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inbasekaran S — Lilac Fieldnotes</title><style>/* ============================================================
+   moodboard-base.css
+   Mandatory base styles for brand-system moodboard HTML.
+   Include the full contents of this file in every preview AND
+   in the final moodboard.html. The chosen direction's tokens
+   override --bg, --ink, --signal, --display-font, --body-font.
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Defaults — direction overrides these inside its own :root scope */
+    --bg: #f4f1ea;
+    --surface: #ffffff;
+    --ink: #14110f;
+    --ink-soft: #6e6862;
+    --signal: #b04a2c;
+    --quiet-1: #d8d2c4;
+    --quiet-2: #4a5743;
+
+    --display-font: 'Fraunces', Georgia, serif;
+    --body-font: 'Söhne', 'Inter Tight', system-ui, sans-serif;
+    --mono-font: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Type scale — use clamp() everywhere */
+    --fs-display: clamp(3rem, 7vw, 6rem);
+    --fs-h1:      clamp(2rem, 4.5vw, 3.5rem);
+    --fs-h2:      clamp(1.5rem, 3vw, 2.25rem);
+    --fs-body:    clamp(1rem, 1.15vw, 1.125rem);
+    --fs-small:   clamp(0.75rem, 0.9vw, 0.875rem);
+    --fs-mono:    clamp(0.7rem, 0.85vw, 0.8125rem);
+
+    /* Spacing */
+    --gutter: clamp(1.5rem, 3vw, 2.5rem);
+    --section-gap: clamp(2.5rem, 6vw, 5rem);
+    --card-radius: 6px;
+}
+
+html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body-font);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    padding: var(--gutter);
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ============================================================
+   LAYOUT — moodboard sections stack vertically; each section
+   has clear hierarchy and breathes. Maximum width keeps it
+   readable on wide monitors.
+   ============================================================ */
+
+.moodboard {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gutter);
+}
+
+.section-label {
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+}
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+
+.masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: var(--gutter);
+    border-bottom: 1px solid var(--ink);
+}
+
+.masthead .direction-name {
+    font-family: var(--display-font);
+    font-size: var(--fs-display);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+}
+
+.masthead .tagline {
+    font-family: var(--body-font);
+    font-size: var(--fs-h2);
+    color: var(--ink-soft);
+    max-width: 32ch;
+    line-height: 1.25;
+}
+
+.masthead .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: var(--gutter);
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+}
+
+/* ============================================================
+   PALETTE STRIP
+   ============================================================ */
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+}
+
+.swatch {
+    aspect-ratio: 1 / 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0.75rem;
+    color: var(--ink);
+    border-right: 1px solid var(--ink);
+    background: var(--swatch-color, #fff);
+}
+
+.swatch:last-child { border-right: none; }
+.swatch.dark { color: var(--bg); }
+
+.swatch .name {
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.swatch .hex {
+    font-family: var(--mono-font);
+    font-size: var(--fs-small);
+    margin-top: 0.25rem;
+    opacity: 0.85;
+}
+
+/* ============================================================
+   TYPOGRAPHY SPECIMEN
+   ============================================================ */
+
+.specimen {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter);
+}
+
+@media (min-width: 720px) {
+    .specimen { grid-template-columns: 1.2fr 1fr; }
+}
+
+.specimen .display-sample {
+    font-family: var(--display-font);
+    font-size: clamp(4rem, 11vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+}
+
+.specimen .body-sample {
+    font-family: var(--body-font);
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    max-width: 42ch;
+    color: var(--ink);
+}
+
+.specimen .body-sample em {
+    color: var(--signal);
+    font-style: italic;
+}
+
+.specimen .pair-meta {
+    margin-top: 1rem;
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+}
+
+/* ============================================================
+   VOICE SAMPLE
+   ============================================================ */
+
+.voice {
+    background: var(--surface, var(--quiet-1));
+    padding: var(--gutter);
+    border-left: 4px solid var(--signal);
+}
+
+.voice .tagline {
+    font-family: var(--display-font);
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+}
+
+.voice .body-copy p {
+    font-family: var(--body-font);
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    max-width: 56ch;
+}
+
+.voice .body-copy p + p {
+    margin-top: 0.6em;
+}
+
+/* ============================================================
+   IMAGERY REFERENCES — text-described scenes, not stock photos
+   Each card: short reference scene + thin palette-anchored bar
+   ============================================================ */
+
+.imagery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+}
+
+.ref-card {
+    background: var(--bg);
+    padding: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 200px;
+    position: relative;
+}
+
+.ref-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--ref-anchor, var(--signal));
+}
+
+.ref-card .ref-num {
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+}
+
+.ref-card .ref-scene {
+    font-family: var(--display-font);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    line-height: 1.25;
+    color: var(--ink);
+}
+
+.ref-card .ref-anchor-label {
+    margin-top: auto;
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+}
+
+/* ============================================================
+   TEXTURE / MATERIAL CHIPS
+   ============================================================ */
+
+.materials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+}
+
+/* ============================================================
+   FOOTER / DIRECTION BADGE
+   ============================================================ */
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--gutter);
+    border-top: 1px solid var(--ink);
+    font-family: var(--mono-font);
+    font-size: var(--fs-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+}
+
+.badge {
+    border: 1px solid var(--ink);
+    padding: 0.4rem 0.75rem;
+    color: var(--ink);
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@font-face{font-family:Inter;src:url('../assets/fonts/inter-400.woff2');font-weight:400}@font-face{font-family:Inter;src:url('../assets/fonts/inter-600.woff2');font-weight:600}:root{--ground:#fffefb;--ink:#392b52;--signal:#5645d4;--font-display:Inter,sans-serif;--font-body:Inter,sans-serif}body{font-family:var(--font-body);background:var(--ground);color:var(--ink);max-width:1184px;margin:auto;padding:40px}.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}h1{font-size:56px;line-height:1.1;letter-spacing:-2px;font-weight:600}section{margin:48px 0}.refs{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.refs>div{padding:24px;border:1px solid #e5dfeb;border-radius:12px}@media(max-width:600px){body{padding:24px}h1{font-size:36px}.palette,.refs{grid-template-columns:1fr 1fr}}</style><body><p>INBASEKARAN S · VISUAL SYSTEM</p><h1>Lilac Fieldnotes.</h1><p>Light paper, plum typography, restrained illustration.</p><section><h2>Palette</h2><div class="palette"><div style="background:#fffefb;color:#392b52;padding:24px 16px;min-height:120px"><strong>bg</strong><br>#fffefb</div><div style="background:#392b52;color:#fffefb;padding:24px 16px;min-height:120px"><strong>ink</strong><br>#392b52</div><div style="background:#5645d4;color:#fffefb;padding:24px 16px;min-height:120px"><strong>purple</strong><br>#5645d4</div><div style="background:#e6e0f5;color:#392b52;padding:24px 16px;min-height:120px"><strong>lilac</strong><br>#e6e0f5</div><div style="background:#ffe8d4;color:#392b52;padding:24px 16px;min-height:120px"><strong>peach</strong><br>#ffe8d4</div><div style="background:#d9f3e1;color:#392b52;padding:24px 16px;min-height:120px"><strong>mint</strong><br>#d9f3e1</div><div style="background:#dcecfa;color:#392b52;padding:24px 16px;min-height:120px"><strong>sky</strong><br>#dcecfa</div><div style="background:#fef7d6;color:#392b52;padding:24px 16px;min-height:120px"><strong>yellow</strong><br>#fef7d6</div></div></section><section><h2>Single-family type</h2><h1>Making intelligence<br>more efficient.</h1><p>Inter 600 headings, 500 controls, 400 body. The supplied Notion instructions take precedence over general font-discovery defaults.</p></section><section><h2>Illustration direction</h2><div class="refs"><div>Supplied personal line portrait — even paper light — ivory and lilac.</div><div>Supplied laptop/AI drawing — soft white ground — sky and lilac.</div><div>Actual book cover — soft side light — pale yellow paper.</div><div>Existing biography photograph — existing studio light — warm white frame.</div><div>Folded-note researcher — flat even light — plum and lavender.</div><div>Folded-note awards character — flat even light — muted gold trophy.</div><div>Folded-note writer — flat even light — apricot book and purple pencil.</div><div>Folded-note contact character — flat even light — mint envelope and peach plane.</div></div></section><footer>Inbasekaran S · Lilac Fieldnotes · 24 October 2026</footer></body></html>
