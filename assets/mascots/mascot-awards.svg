@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Awards mascot - cheerful achiever with trophy">
+  <defs>
+    <linearGradient id="awards-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF4E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFE8CC;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="awards-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD966;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFC947;stop-opacity:1" />
+    </linearGradient>
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#151515" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <!-- Body -->
+  <rect x="20" y="35" width="80" height="65" rx="16" fill="url(#awards-body)" filter="url(#soft-shadow)"/>
+  <!-- Head -->
+  <ellipse cx="60" cy="32" rx="28" ry="26" fill="url(#awards-body)" filter="url(#soft-shadow)"/>
+  <!-- Eyes - bright and proud -->
+  <g class="mascot-eyes">
+    <circle cx="50" cy="28" r="3.5" fill="#2D3A4A" class="eye-left"/>
+    <circle cx="70" cy="28" r="3.5" fill="#2D3A4A" class="eye-right"/>
+    <!-- Sparkle in eyes -->
+    <circle cx="52" cy="26" r="1.2" fill="#FFF" opacity="0.8"/>
+    <circle cx="72" cy="26" r="1.2" fill="#FFF" opacity="0.8"/>
+  </g>
+  <!-- Cheeks - rosy -->
+  <circle cx="40" cy="38" r="6" fill="#FFB3C6" opacity="0.7" class="cheek-left"/>
+  <circle cx="80" cy="38" r="6" fill="#FFB3C6" opacity="0.7" class="cheek-right"/>
+  <!-- Smiling mouth -->
+  <path d="M50 42 Q60 48 70 42" fill="none" stroke="#2D3A4A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Trophy (held high) -->
+  <g class="mascot-prop" transform="translate(95, 25)">
+    <!-- Cup -->
+    <path d="M-8 0 L-8 -28 L8 -28 L8 0 Z" fill="url(#awards-accent)" stroke="#FFC947" stroke-width="1.5"/>
+    <ellipse cx="0" cy="-28" rx="10" ry="4" fill="url(#awards-accent)" stroke="#FFC947" stroke-width="1.5"/>
+    <!-- Handles -->
+    <path d="M-8 -4 Q-16 -12 -8 -20" fill="none" stroke="#FFC947" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M8 -4 Q16 -12 8 -20" fill="none" stroke="#FFC947" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Base -->
+    <rect x="-10" y="0" width="20" height="4" rx="1" fill="#FFC947"/>
+    <rect x="-8" y="4" width="16" height="3" rx="1" fill="#FFD966"/>
+    <!-- Star on trophy -->
+    <polygon points="0,-30 -1,-25 -6,-25 -2,-22 -3,-17 0,-20 3,-17 -2,-22 6,-25 1,-25" fill="#FFF" opacity="0.9"/>
+  </g>
+  <!-- Confetti/sparkles -->
+  <g class="mascot-sparkles" opacity="0.8">
+    <circle cx="15" cy="25" r="2.5" fill="#FFD966"/>
+    <circle cx="105" cy="30" r="2" fill="#A8D0FF"/>
+    <circle cx="10" cy="75" r="2" fill="#FFB3C6"/>
+    <polygon points="60,8 62,12 58,12" fill="#FFD966"/>
+    <polygon points="60,105 62,109 58,109" fill="#A8D0FF"/>
+  </g>
+</svg>

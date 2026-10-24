@@ -1,0 +1,313 @@
+/* ==========================================================================
+   Notion-Inspired Mascot System
+   ========================================================================== */
+
+/* Mascot container - positioned near each section */
+.mascot-host {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 10;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Make mascot interactive when focused/hovered */
+.mascot-host:hover,
+.mascot-host:focus-within {
+  pointer-events: auto;
+}
+
+.mascot-host:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 8px;
+  border-radius: 24px;
+}
+
+/* The mascot SVG wrapper */
+.mascot {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+  filter: drop-shadow(0 8px 24px rgba(15, 15, 15, 0.08));
+}
+
+/* Idle floating animation */
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+
+@keyframes mascot-blink {
+  0%, 45%, 55%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.05); }
+}
+
+@keyframes mascot-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Apply idle animations when motion is OK */
+@media (prefers-reduced-motion: no-preference) {
+  .mascot-host:not(.mascot--reduced) .mascot {
+    animation: mascot-float 4s ease-in-out infinite, mascot-breathe 6s ease-in-out infinite;
+  }
+
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-eyes .eye-left,
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-eyes .eye-right {
+    animation: mascot-blink 4s ease-in-out infinite;
+    transform-origin: center center;
+  }
+
+  /* Stagger blink between eyes */
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-eyes .eye-right {
+    animation-delay: 0.1s;
+  }
+
+  /* Sparkle animation */
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-sparkles > * {
+    animation: mascot-sparkle 3s ease-in-out infinite;
+  }
+
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-sparkles > *:nth-child(2) {
+    animation-delay: 1s;
+  }
+
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-sparkles > *:nth-child(3) {
+    animation-delay: 2s;
+  }
+
+  @keyframes mascot-sparkle {
+    0%, 100% { opacity: 0.4; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+  }
+
+  /* Prop gentle swing */
+  .mascot-host:not(.mascot--reduced) .mascot .mascot-prop {
+    transform-origin: top center;
+    animation: mascot-swing 5s ease-in-out infinite;
+  }
+
+  @keyframes mascot-swing {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+}
+
+/* Hover interactions */
+.mascot-host:hover .mascot,
+.mascot-host:focus-within .mascot {
+  transform: scale(1.08) translateY(-4px);
+  filter: drop-shadow(0 16px 32px rgba(15, 15, 15, 0.12));
+}
+
+.mascot-host:hover .mascot .mascot-prop,
+.mascot-host:focus-within .mascot .mascot-prop {
+  animation: none;
+  transform: rotate(0deg) scale(1.1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Click/active state */
+.mascot-host:active .mascot {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Tooltip / description reveal */
+.mascot-tooltip {
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.9);
+  max-width: 240px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--rounded-lg, 12px);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 20;
+  box-shadow: var(--shadow-2, 0 4px 12px rgba(15,15,15,0.08));
+}
+
+.mascot-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--border);
+}
+
+.mascot-tooltip::before {
+  content: '';
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--bg-elevated);
+}
+
+.mascot-host:hover .mascot-tooltip,
+.mascot-host:focus-within .mascot-tooltip,
+.mascot-host.mascot--active .mascot-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Section highlight effect when mascot is active */
+.section-highlight {
+  position: relative;
+}
+
+.section-highlight::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  border-radius: var(--rounded-xl, 16px);
+  border: 2px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+
+.section-highlight.mascot--highlighted::before {
+  opacity: 1;
+  animation: highlight-pulse 2s ease-in-out infinite;
+}
+
+@keyframes highlight-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-subtle); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .mascot,
+  .mascot *,
+  .mascot-host,
+  .mascot-tooltip,
+  .section-highlight::before {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .mascot-host.mascot--reduced .mascot {
+    transform: none;
+  }
+}
+
+/* Responsive sizing */
+@media (max-width: 1023px) {
+  .mascot-host {
+    width: 100px;
+    height: 100px;
+  }
+
+  .mascot-tooltip {
+    max-width: 200px;
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 680px) {
+  .mascot-host {
+    width: 88px;
+    height: 88px;
+  }
+
+  .mascot-tooltip {
+    max-width: 180px;
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+
+  /* On mobile, show tooltip on tap (active state) */
+  .mascot-host:active .mascot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* Desktop: position mascots relative to sections */
+@media (min-width: 1024px) {
+  /* Research mascot - top right of research section */
+  #research .mascot-host[data-mascot="research"] {
+    top: -20px;
+    right: -40px;
+  }
+
+  /* Awards mascot - top right of awards section */
+  #awards .mascot-host[data-mascot="awards"] {
+    top: -20px;
+    right: -40px;
+  }
+
+  /* Writing mascot - top right of writing section */
+  #writing .mascot-host[data-mascot="writing"] {
+    top: -20px;
+    right: -40px;
+  }
+
+  /* Contact mascot - top right of contact section */
+  #contact .mascot-host[data-mascot="contact"] {
+    top: -20px;
+    right: -40px;
+  }
+}
+
+/* Tablet positioning */
+@media (min-width: 681px) and (max-width: 1023px) {
+  .mascot-host {
+    top: -15px !important;
+    right: -30px !important;
+  }
+}
+
+/* Mobile: stack mascots inline in sections */
+@media (max-width: 680px) {
+  .mascot-host {
+    position: relative;
+    margin: 0 auto 24px;
+    pointer-events: auto;
+  }
+
+  .mascot-host[data-mascot] {
+    display: block;
+  }
+}
+
+/* Keyboard focus visible for accessibility */
+.mascot-host:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 20px;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .mascot {
+    filter: none;
+  }
+
+  .mascot-tooltip {
+    border: 2px solid CanvasText;
+    background: Canvas;
+  }
+}
