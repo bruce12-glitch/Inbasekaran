@@ -5,6 +5,7 @@ const sources = {research:'#research .section-subtitle',awards:'#awards .timelin
 let paused = reduced.matches;
 const instances = [];
 function updateMotion() {
+  document.documentElement.dataset.characterPaused = String(paused || reduced.matches);
   motionButton.setAttribute('aria-pressed', String(paused));
   motionButton.textContent = paused ? 'Play character motion' : 'Pause character motion';
   instances.forEach(item => item.lottie?.stop());
@@ -14,6 +15,13 @@ reduced.addEventListener('change', () => {paused = reduced.matches;updateMotion(
 updateMotion();
 for (const card of cards) {
   const key = card.dataset.character;
+  if(window.lottie) {
+    const animation=window.lottie.loadAnimation({container:card.querySelector('.character-lottie'),renderer:'svg',loop:false,autoplay:false,animationData:sparkleData()});
+    instances.push({lottie:animation});
+    const play=()=>{if(!paused&&!reduced.matches)animation.goToAndPlay(0,true);};
+    card.addEventListener('pointerenter',play);card.addEventListener('focusin',play);
+    window.addEventListener('pagehide',()=>animation.destroy(),{once:true});
+  }
   card.querySelector('.character-panel p').textContent = document.querySelector(sources[key]).textContent.trim().replace(/\s+/g,' ');
   card.querySelector('button').addEventListener('click', () => {
     const target = document.getElementById(key);
@@ -71,7 +79,7 @@ function mountCharacter(T,card) {
   }
   let hover=false,visible=false,raf=0,disposed=false;
   let lottieAnimation;
-  if(window.lottie){lottieAnimation=window.lottie.loadAnimation({container:card.querySelector('.character-lottie'),renderer:'svg',loop:false,autoplay:false,animationData:sparkleData()});}
+  
   const item={lottie:lottieAnimation};instances.push(item);
   const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix();});resize.observe(stage);
   stage.appendChild(renderer.domElement);card.querySelector('.character-fallback').hidden=true;
