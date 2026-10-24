@@ -10,7 +10,7 @@
     research: {
       sectionId: 'research',
       tooltip: 'Research — LLM inference efficiency, EntroPrefill & Page-EntroKV',
-      action: 'navigate', // navigate | highlight | reveal
+      action: 'navigate',
       description: 'I study efficient LLM inference, information-theoretic attention and context pruning, hardware-aligned KV-cache allocation under grouped-query attention, and zero-trust cryptographic systems.'
     },
     awards: {
@@ -30,6 +30,12 @@
       tooltip: 'Contact — Let\'s connect for research, collaborations, or a thoughtful hello',
       action: 'navigate',
       description: 'For research, collaborations, or a thoughtful hello. Email: inba.research.ilrl.labs@gmail.com'
+    },
+    updates: {
+      sectionId: 'updates',
+      tooltip: 'Updates — Latest papers, internships, and achievements',
+      action: 'navigate',
+      description: 'Recent updates: EntroPrefill & Page-EntroKV papers on arXiv, AWS & Google AI/ML internships, hackathon wins and rankings.'
     }
   };
 

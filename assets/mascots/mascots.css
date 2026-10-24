@@ -1,8 +1,19 @@
 /* ==========================================================================
-   Notion-Inspired Mascot System
+   Notion-Inspired Mascot System - Fixed for Sidebar Layout
    ========================================================================== */
 
-/* Mascot container - positioned near each section */
+/* Ensure sections can contain absolute-positioned mascots */
+#research,
+#awards,
+#writing,
+#contact,
+#updates,
+#experience,
+#service {
+  position: relative;
+}
+
+/* Mascot container */
 .mascot-host {
   position: absolute;
   width: 120px;
@@ -63,12 +74,10 @@
     transform-origin: center center;
   }
 
-  /* Stagger blink between eyes */
   .mascot-host:not(.mascot--reduced) .mascot .mascot-eyes .eye-right {
     animation-delay: 0.1s;
   }
 
-  /* Sparkle animation */
   .mascot-host:not(.mascot--reduced) .mascot .mascot-sparkles > * {
     animation: mascot-sparkle 3s ease-in-out infinite;
   }
@@ -86,7 +95,6 @@
     50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
   }
 
-  /* Prop gentle swing */
   .mascot-host:not(.mascot--reduced) .mascot .mascot-prop {
     transform-origin: top center;
     animation: mascot-swing 5s ease-in-out infinite;
@@ -128,7 +136,7 @@
   padding: 12px 16px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: var(--rounded-lg, 12px);
+  border-radius: 12px;
   font-size: 13px;
   line-height: 1.5;
   color: var(--text);
@@ -137,7 +145,7 @@
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
   z-index: 20;
-  box-shadow: var(--shadow-2, 0 4px 12px rgba(15,15,15,0.08));
+  box-shadow: 0 4px 12px rgba(15,15,15,0.08);
 }
 
 .mascot-tooltip::after {
@@ -177,7 +185,7 @@
   content: '';
   position: absolute;
   inset: -24px;
-  border-radius: var(--rounded-xl, 16px);
+  border-radius: 16px;
   border: 2px solid var(--accent);
   opacity: 0;
   pointer-events: none;
@@ -245,38 +253,44 @@
   }
 }
 
-/* Desktop: position mascots relative to sections */
+/* Desktop: position mascots top-right of each section content area */
 @media (min-width: 1024px) {
-  /* Research mascot - top right of research section */
+  /* Research mascot */
   #research .mascot-host[data-mascot="research"] {
-    top: -20px;
-    right: -40px;
+    top: 24px;
+    right: 24px;
   }
 
-  /* Awards mascot - top right of awards section */
+  /* Awards mascot */
   #awards .mascot-host[data-mascot="awards"] {
-    top: -20px;
-    right: -40px;
+    top: 24px;
+    right: 24px;
   }
 
-  /* Writing mascot - top right of writing section */
+  /* Writing mascot */
   #writing .mascot-host[data-mascot="writing"] {
-    top: -20px;
-    right: -40px;
+    top: 24px;
+    right: 24px;
   }
 
-  /* Contact mascot - top right of contact section */
+  /* Contact mascot */
   #contact .mascot-host[data-mascot="contact"] {
-    top: -20px;
-    right: -40px;
+    top: 24px;
+    right: 24px;
+  }
+
+  /* Updates mascot */
+  #updates .mascot-host[data-mascot="updates"] {
+    top: 24px;
+    right: 24px;
   }
 }
 
 /* Tablet positioning */
 @media (min-width: 681px) and (max-width: 1023px) {
   .mascot-host {
-    top: -15px !important;
-    right: -30px !important;
+    top: 16px !important;
+    right: 16px !important;
   }
 }
 
@@ -310,4 +324,10 @@
     border: 2px solid CanvasText;
     background: Canvas;
   }
+}
+
+/* Debug: make mascots visible during development */
+.mascot-host {
+  /* Uncomment for debugging: */
+  /* border: 2px dashed red; */
 }
