@@ -33,7 +33,7 @@ h1,h2,h3{color:var(--ink);font-family:var(--font-display);overflow-wrap:anywhere
 .nav-container{max-width:1248px;margin:auto;padding:16px 32px;display:flex;flex-wrap:wrap;align-items:center;gap:24px}
 .brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-size:18px;line-height:1.2;font-weight:600;letter-spacing:-.7px;text-decoration:none;flex-shrink:0;max-width:100%}
 .brand>span{min-width:0}
-.brand>svg{width:32px;height:32px;color:var(--plum)}
+.brand>img{width:44px;height:44px;object-fit:contain;flex-shrink:0}
 .brand-dot{color:var(--purple)}
 .nav-links{margin-left:auto;display:flex;align-items:center;gap:24px}
 .nav-links>a{display:inline-flex;align-items:center;gap:12px;min-height:44px;color:var(--body);font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap}
@@ -166,7 +166,7 @@ code{font-family:inherit;font-size:.9em;overflow-wrap:anywhere}
 .copy-email-btn:hover{background:var(--surface)}
 footer{display:flex;align-items:center;flex-wrap:wrap;gap:20px 32px;padding:0 4px 32px;font-size:12px;color:var(--muted)}
 footer .brand{font-size:16px;margin-right:auto}
-footer .brand>svg{width:28px;height:28px}
+footer .brand>img{width:40px;height:40px}
 footer>a:not(.brand){display:inline-flex;align-items:center;min-height:44px;color:var(--body);text-decoration:none}
 
 /* The arrow stays precise; only its decorative ring trails the pointer. */
@@ -208,7 +208,7 @@ footer>a:not(.brand){display:inline-flex;align-items:center;min-height:44px;colo
   .personal-section{padding:32px;gap:32px}.personal-copy h2{font-size:32px}
 }
 @media(max-width:767px){
-  main{padding:0 20px}.nav-container{padding:12px 20px}.brand{font-size:16px}.brand>svg{width:28px;height:28px}.nav-links{left:20px;right:20px}
+  main{padding:0 20px}.nav-container{padding:12px 20px}.brand{font-size:16px}.brand>img{width:40px;height:40px}.nav-links{left:20px;right:20px}
   section{margin-bottom:64px;scroll-margin-top:96px}
   .hero{grid-template-columns:minmax(0,1fr);padding:32px 28px 24px;gap:32px;margin-top:20px}
   .hero h1{font-size:clamp(36px,8vw,52px);letter-spacing:-1.5px}.hero-kicker{margin-bottom:24px}
@@ -229,7 +229,7 @@ footer>a:not(.brand){display:inline-flex;align-items:center;min-height:44px;colo
   footer{gap:12px 24px}footer .brand{width:100%;margin:0}footer p{width:100%;margin:4px 0}
 }
 @media(max-width:480px){
-  .nav-container{gap:8px;padding-inline:16px}.brand{font-size:14px;gap:6px}.brand>svg{width:24px;height:24px}.cursor-toggle{width:36px;height:44px}.cursor-toggle>svg{width:22px;height:22px}.menu-toggle{font-size:11px;padding:10px;gap:6px}
+  .nav-container{gap:8px;padding-inline:16px}.brand{font-size:14px;gap:6px}.brand>img{width:36px;height:36px}.cursor-toggle{width:36px;height:44px}.cursor-toggle>svg{width:22px;height:22px}.menu-toggle{font-size:11px;padding:10px;gap:6px}
   .hero-actions{flex-direction:column}.hero .button{width:100%}
   #awards .section-heading{grid-template-columns:minmax(0,1fr);gap:16px}#awards .section-art{width:132px;height:116px}
 }

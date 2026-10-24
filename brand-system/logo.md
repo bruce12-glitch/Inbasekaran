@@ -1,9 +1,11 @@
-# Inbasekaran S — Wordmark
+# Inbasekaran S — Supplied website logo
 
-The full name uses Inter 600, tracking −0.025em, in plum ink. The folded-page icon uses lilac and plum. Keep one cap-height of clear space on every side. Minimum full-name size is 16px; below that use the page icon at 24px or larger. Use plum on warm paper or white, never on a dark panel. Primary purple may mark the terminal dot.
+Use the owner’s exact supplied head-and-AI illustration for the header and footer. `../assets/brand/inbasekaran-mark.png` is a byte-for-byte copy of the selected upload, with the artwork, background, and visible marks preserved. It replaces the earlier generated concept.
 
-Do not stretch, rotate, outline, shadow, place over busy imagery, or recolor outside the tokens.
+- Header: 44px image box on desktop, 40px on medium screens, 36px on narrow screens.
+- Footer: 40px image box beside the existing name.
+- Preserve the illustration’s aspect ratio with object-fit: contain.
+- Browser tab: 32px and 64px size-only exports, centered without cropping or redrawing the artwork.
+- The adjacent name stays as live HTML text. The logo image has empty alt text to avoid repeating the link’s accessible name.
 
-```css
-.wordmark{font-family:var(--font-display);font-weight:600;letter-spacing:-.025em;color:var(--ink)}
-```
+The visible name-and-university caption beside the small About portrait has been removed. The portrait and the substantive biography and education content remain.

@@ -10,6 +10,7 @@ Live site: https://bruce12-glitch.github.io/Inbasekaran/
 - `assets/studio.css`: responsive layout, accessible states, color cards, and cursor styling.
 - `assets/studio.js`: mobile navigation, clipboard copying, and an optional pointer effect.
 - `assets/studio/`: supplied illustration images, a small cursor SVG, and the favicon.
+- `assets/brand/`: the exact supplied website logo and browser icon exports.
 - `assets/fonts/`: self-hosted Inter and its license.
 - `brand-system/`: palette, type, spacing, voice, imagery, and contrast references.
 
