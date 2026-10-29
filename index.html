@@ -1,933 +1,543 @@
 ﻿<!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html data-theme="light" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inbasekaran S â€” AI Systems &amp; LLM Inference Researcher | inbasekaran.com</title>
-  <meta name="description" content="Personal academic and research portfolio of Inbasekaran S â€” Computer Science &amp; Engineering (Cyber Security) researcher at SRMIST focusing on LLM inference efficiency, RÃ©nyi-guided context pruning (EntroPrefill), hardware-aligned KV-cache management (Page-EntroKV), and zero-trust systems." />
-  <link rel="canonical" href="https://inbasekaran.com/" />
-  <link rel="stylesheet" href="/assets/mascots/mascots.css" />
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #ffffff;
-      --bg-elevated: #f6f5f4;
-      --bg-card-hover: #eeece9;
-      --text: #1a1a1a;
-      --text-secondary: #37352f;
-      --text-muted: #68655f;
-      --accent: #0075de;
-      --accent-hover: #005bab;
-      --accent-subtle: #e6e0f5;
-      --border: #e5e3df;
-      --border-strong: #8b8780;
-      --badge-bg: #e6e0f5;
-      --badge-text: #391c57;
-      --highlight-bg: #d9f3e1;
-      --highlight-text: #225c36;
-      --notion-design-primary: #5645d4;
-      --notion-design-primary-pressed: #4534b3;
-      --notion-design-on-primary: #ffffff;
-      --notion-design-cover: #e6e0f5;
-      --notion-design-peach: #ffe8d4;
-      --notion-design-sky: #dcecfa;
-      --notion-design-mint: #d9f3e1;
-      --notion-design-yellow: #fef7d6;
-      --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-mono: "SFMono-Regular", Consolas, monospace;
-    }
-    /* Dark surfaces are an adaptation of the supplied light design tokens. */
-    [data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #191919;
-      --bg-elevated: #222221;
-      --bg-card-hover: #2d2c2a;
-      --text: #f3f2ef;
-      --text-secondary: #d4d1cb;
-      --text-muted: #b0ada6;
-      --accent: #8bc8ff;
-      --accent-hover: #bedfff;
-      --accent-subtle: #383045;
-      --border: #3a3935;
-      --border-strong: #827f78;
-      --badge-bg: #383045;
-      --badge-text: #e6d1ff;
-      --highlight-bg: #233c2c;
-      --highlight-text: #c0e8cb;
-      --notion-design-primary: #5645d4;
-      --notion-design-primary-pressed: #4534b3;
-      --notion-design-cover: #342e40;
-      --notion-design-peach: #3e3026;
-      --notion-design-sky: #243544;
-      --notion-design-mint: #25382d;
-      --notion-design-yellow: #3b3625;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 32px; }
-    body { background: var(--bg); color: var(--text); font: 16px/1.55 var(--font-sans); -webkit-font-smoothing: antialiased; }
-    a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-    a:hover { color: var(--accent-hover); }
-    button { font: inherit; cursor: pointer; }
-    :focus-visible { outline: 3px solid var(--notion-design-primary); outline-offset: 4px; border-radius: 4px; }
-    [data-theme="dark"] :focus-visible { outline-color: #c6baff; }
-    ::selection { background: var(--accent-subtle); color: var(--text); }
-    .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100; padding: 12px 20px; background: var(--bg); color: var(--text); border: 1px solid var(--border-strong); border-radius: 8px; }
-    .skip-link:focus { top: 12px; }
-    .site-header { position: fixed; inset: 0 auto 0 0; width: 224px; z-index: 50; background: var(--bg-elevated); border-right: 1px solid var(--border); }
-    .nav-container { display: flex; flex-direction: column; align-items: stretch; padding: 32px 16px; gap: 40px; height: 100%; overflow-y: auto; }
-    .brand { display: flex; flex-direction: column; gap: 4px; color: var(--text); font-size: 16px; font-weight: 600; letter-spacing: -.4px; padding: 0 12px; text-decoration: none; }
-    .brand-domain { color: var(--text-muted); font-size: 12px; font-weight: 400; letter-spacing: 0; }
-    .nav-links { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
-    .nav-links a { display: flex; align-items: center; min-height: 44px; gap: 12px; padding: 10px 12px; border-radius: 6px; color: var(--text-secondary); font-size: 14px; font-weight: 500; text-decoration: none; }
-    .nav-links a::before { content: ""; flex: 0 0 16px; height: 18px; border: 1.5px solid currentColor; border-radius: 2px; opacity: .65; background: linear-gradient(currentColor,currentColor) 3px 5px / 8px 1px no-repeat, linear-gradient(currentColor,currentColor) 3px 9px / 6px 1px no-repeat; }
-    .nav-links a[href="#awards"]::before { border-radius: 50%; width: 16px; height: 16px; background: none; outline: 1px solid currentColor; outline-offset: -5px; }
-    .nav-links a[href="#service"]::before { border-radius: 50% 50% 4px 4px; height: 14px; background: none; }
-    .nav-links a[href^="mailto:"]::before { height: 12px; background: none; border-radius: 2px; }
-    .nav-links a:hover { color: var(--text); background: var(--bg-card-hover); }
-    .theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg); color: var(--text-secondary); margin: 32px 12px 0; }
-    .theme-toggle:hover { background: var(--bg-card-hover); }
-    .theme-toggle:active { background: var(--border); }
-    main { width: calc(100% - 224px); max-width: 1184px; margin: 32px auto 0 224px; padding: 0 56px; }
-    .hero { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0,1fr) 240px; gap: 48px; align-items: start; padding: 160px 0 0; }
-    .hero::before { content: ""; position: absolute; z-index: -1; top: 0; left: -24px; right: -24px; height: 112px; background: var(--notion-design-cover); border-radius: 12px; }
-    .eyebrow { color: var(--text-muted); font-size: 12px; font-weight: 500; letter-spacing: .2px; margin-bottom: 16px; }
-    .hero-name { font-size: clamp(40px,4.3vw,64px); font-weight: 600; line-height: 1.1; letter-spacing: -2px; margin-bottom: 20px; }
-    .hero-name span { color: var(--text) !important; }
-    .hero-subtitle { color: var(--text-secondary); font-size: 24px; line-height: 1.3; letter-spacing: -.5px; margin-bottom: 24px; }
-    .hero-summary { color: var(--text-secondary); max-width: 560px; font-size: 16px; }
-    .hero-summary-lead { display: block; color: var(--text); font-size: 16px; font-weight: 600; }
-    .hero-summary-detail { display: block; margin-top: 12px; }
-    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 28px 0 16px; }
-    .button { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 44px; padding: 12px 18px; border: 1px solid transparent; border-radius: 8px; background: var(--notion-design-primary); color: var(--notion-design-on-primary); font-size: 14px; line-height: 1.3; font-weight: 500; text-decoration: none; transition: background .15s; }
-    .button:hover, .button:active { background: var(--notion-design-primary-pressed); color: var(--notion-design-on-primary); }
-    .button-secondary { color: var(--text); background: var(--bg); border-color: var(--border-strong); }
-    .button-secondary:hover, .button-secondary:active { background: var(--bg-card-hover); color: var(--text); }
-    .social-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; font-size: 13px; }
-    .social-row a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-secondary); }
-    .portrait-wrap { margin: -80px 0 0; min-width: 0; }
-    .portrait-frame { overflow: hidden; border: 6px solid var(--bg); border-radius: 12px; background: var(--bg-elevated); aspect-ratio: 1/1.12; }
-    .portrait-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
-    .portrait-note { display: flex; flex-direction: column; gap: 4px; color: var(--text-muted); font-size: 12px; padding: 12px 6px 0; }
-    .about-strip { display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 32px; padding: 28px 32px; margin-bottom: 72px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; }
-    .about-strip h2 { font-size: 20px; line-height: 1.35; font-weight: 600; letter-spacing: -.3px; }
-    .hero-bio p { color: var(--text-secondary); font-size: 14px; line-height: 1.65; margin-bottom: 12px; }
-    .about-strip a, .update-item:nth-child(even) a, .contact-email { color: var(--accent-hover); }
-    .hero-bio p:last-child { margin-bottom: 0; }
-    section { margin-bottom: 72px; scroll-margin-top: 32px; }
-    .section-title { font-size: 32px; line-height: 1.2; font-weight: 600; letter-spacing: -.8px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
-    .section-subtitle { max-width: 760px; color: var(--text-secondary); font-size: 16px; margin-bottom: 32px; }
-    .entry-list { display: grid; gap: 20px; }
-    .entry-card { display: grid; grid-template-columns: 180px minmax(0,1fr); gap: 28px; padding: 28px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); }
-    .entry-thumb { align-self: start; padding: 24px 8px; border-radius: 8px; background: var(--notion-design-cover); }
-    #research .entry-card:nth-child(2) .entry-thumb { background: var(--notion-design-sky); }
-    #research .entry-card:nth-child(3) .entry-thumb { background: var(--notion-design-mint); }
-    .entry-thumb svg { display: block; width: 100%; height: auto; }
-    .entry-body { min-width: 0; }
-    .entry-title { font-size: 20px; line-height: 1.35; font-weight: 600; letter-spacing: -.3px; margin-bottom: 12px; }
-    .entry-title a { color: var(--text); text-decoration: none; }
-    .entry-title a:hover { text-decoration: underline; }
-    .entry-authors { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
-    .entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 16px; }
-    .badge { display: inline-block; background: var(--badge-bg); color: var(--badge-text); font-size: 12px; line-height: 1.5; font-weight: 500; border-radius: 4px; padding: 2px 8px; }
-    .badge-highlight { background: var(--highlight-bg); color: var(--highlight-text); }
-    .paper-links { font-size: 13px; line-height: 2; }
-    .entry-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.65; }
-    .entry-bullets { color: var(--text-secondary); font-size: 14px; line-height: 1.65; padding-left: 20px; margin-top: 16px; }
-    .entry-bullets li + li { margin-top: 8px; }
-    .updates-list { list-style: none; border-top: 1px solid var(--border); }
-    .update-item { display: grid; grid-template-columns: 128px minmax(0,1fr); gap: 24px; padding: 20px 16px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; line-height: 1.65; }
-    .update-item:nth-child(even) { background: var(--bg-elevated); }
-    .update-date { color: var(--text-muted); font-size: 13px; padding-top: 2px; }
-    .timeline-row { display: grid; grid-template-columns: 168px minmax(0,1fr); gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--border); }
-    .timeline-row:first-child { border-top: 1px solid var(--border); }
-    .timeline-period { justify-self: start; align-self: start; color: var(--text-secondary); background: var(--bg-elevated); padding: 4px 8px; border-radius: 4px; font-size: 12px; line-height: 1.5; }
-    .timeline-title { color: var(--text); font-size: 16px; font-weight: 600; }
-    .timeline-title a { color: var(--text); }
-    .timeline-sub { color: var(--text-secondary); font-size: 14px; line-height: 1.65; margin-top: 8px; max-width: 720px; }
-    #awards .timeline-row:nth-child(3n+1) .timeline-period { background: var(--notion-design-yellow); }
-    #awards .timeline-row:nth-child(3n+2) .timeline-period { background: var(--notion-design-peach); }
-    #awards .timeline-row:nth-child(3n) .timeline-period { background: var(--notion-design-sky); }
-    #writing .entry-card { background: var(--notion-design-yellow); align-items: center; padding: 32px; }
-    #writing .entry-thumb { padding: 0 8px; background: transparent; }
-    #writing .entry-title a, #writing .entry-desc a { color: var(--text); }
-    .book-cover { display: block; width: min(100%,148px); margin: auto; border-radius: 3px 6px 6px 3px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 8px 16px rgba(26,26,26,.12); }
-    .book-cover img { display: block; width: 100%; height: auto; aspect-ratio: 432/631; object-fit: cover; }
-    .contact { border: 1px solid var(--border); border-left: 4px solid var(--notion-design-primary); border-radius: 8px; padding: 40px; background: var(--bg-elevated); text-align: left; margin-bottom: 48px; }
-    .contact .eyebrow { margin-bottom: 12px; }
-    .contact h2 { font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -.8px; margin-bottom: 16px; }
-    .contact p { color: var(--text-secondary); margin-bottom: 24px; }
-    .contact-email { display: block; width: fit-content; max-width: 100%; overflow-wrap: anywhere; font-size: 14px; margin-top: 24px; }
-    .copy-email-btn { min-height: 44px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--bg); color: var(--text-secondary); font-size: 13px; padding: 10px 16px; margin-top: 12px; }
-    .copy-email-btn:hover { background: var(--bg-card-hover); }
-    .copy-email-btn:active { background: var(--border); }
-    footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--text-muted); font-size: 12px; }
-    footer a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-secondary); }
-    code { font-family: var(--font-mono); font-size: .9em; overflow-wrap: anywhere; }
-    @media (min-width: 1700px) { main { margin-left: calc(224px + (100vw - 1700px)/2); } }
-    @media (max-width: 1179px) {
-      html { scroll-padding-top: 136px; }
-      .site-header { position: sticky; inset: auto; top: 0; width: auto; border-right: 0; border-bottom: 1px solid var(--border); }
-      .nav-container { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; height: auto; padding: 12px 32px; overflow: visible; }
-      .brand-domain { display: none; }
-      .brand { padding: 0; }
-      .nav-links { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px; }
-      .nav-links a { gap: 8px; padding: 10px; font-size: 13px; }
-      .nav-links a::before { display: none; }
-      .theme-toggle { margin: 0 0 0 8px; }
-      main { width: 100%; max-width: 1088px; margin: 24px auto 0; padding: 0 40px; }
-      .hero { grid-template-columns: minmax(0,1fr) 224px; gap: 40px; }
-      .hero-name { font-size: 56px; }
-      section { scroll-margin-top: 136px; }
-    }
-    @media (max-width: 767px) {
-      .nav-container { padding: 12px 24px; }
-      .nav-links { width: 100%; justify-content: space-between; }
-      .nav-links a { padding: 8px 6px; font-size: 12px; }
-      main { padding: 0 24px; }
-      .hero { grid-template-columns: minmax(0,1fr) 176px; gap: 24px; }
-      .hero::before { left: 0; right: 0; }
-      .hero-name { font-size: 44px; letter-spacing: -1.2px; }
-      .hero-subtitle { font-size: 22px; }
-      .about-strip { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
-      .entry-card { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
-      .entry-thumb { width: 200px; max-width: 100%; }
-      .timeline-row { grid-template-columns: 144px minmax(0,1fr); gap: 16px; }
-      #writing .entry-card { grid-template-columns: 144px minmax(0,1fr); padding: 24px; }
-      #writing .entry-thumb { width: auto; }
-      .contact { padding: 28px; }
-    }
-    @media (max-width: 559px) {
-      html { scroll-padding-top: 152px; }
-      .nav-container { padding: 12px 16px 8px; gap: 8px; }
-      .nav-links { flex-wrap: wrap; justify-content: flex-start; gap: 4px; }
-      .nav-links a { padding: 8px; }
-      .theme-toggle { margin-left: auto; }
-      main { padding: 0 20px; margin-top: 16px; }
-      .hero { grid-template-columns: minmax(0,1fr); padding-top: 96px; gap: 28px; }
-      .hero::before { height: 64px; }
-      .hero-name { font-size: clamp(36px,9.5vw,48px); }
-      .hero-subtitle { font-size: 22px; }
-      .hero-actions { align-items: stretch; }
-      .hero-actions .button { flex: 1 1 180px; }
-      .portrait-wrap { display: grid; grid-template-columns: 112px minmax(0,1fr); align-items: center; gap: 20px; margin: 0; }
-      .portrait-frame { border: 0; border-radius: 8px; aspect-ratio: 1; }
-      .portrait-note { padding: 0; font-size: 12px; }
-      section { margin-bottom: 56px; scroll-margin-top: 152px; }
-      .about-strip { margin-bottom: 56px; padding: 24px; }
-      .section-title { font-size: 28px; }
-      .section-subtitle { font-size: 15px; }
-      .entry-card { padding: 20px; }
-      .entry-title { font-size: 19px; }
-      .update-item, .timeline-row { grid-template-columns: minmax(0,1fr); gap: 12px; }
-      .update-item { padding: 20px 12px; }
-      #writing .entry-card { grid-template-columns: minmax(0,1fr); padding: 24px; }
-      #writing .entry-thumb { width: 148px; }
-      .contact { padding: 24px; }
-      .contact h2 { font-size: 28px; }
-      footer { flex-direction: column; align-items: flex-start; gap: 8px; }
-    }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
-    @media print {
-      .site-header, .hero-actions, .copy-email-btn, .skip-link { display: none; }
-      body { background: #fff; color: #1a1a1a; }
-      main { width: auto; max-width: none; margin: 0; padding: 0; }
-      .hero { padding-top: 32px; }
-      .hero::before { display: none; }
-      .portrait-wrap { margin-top: 0; }
-      section { margin-bottom: 32px; }
-      .entry-card, .timeline-row { break-inside: avoid; }
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title> Inbasekaran S â€” AI Systems &amp; LLM Inference Researcher | inbasekaran.com </title>
+<meta content="Personal academic and research portfolio of Inbasekaran S â€” Computer Science &amp; Engineering (Cyber Security) researcher at SRMIST focusing on LLM inference efficiency, RÃ©nyi-guided context pruning (EntroPrefill), hardware-aligned KV-cache management (Page-EntroKV), and zero-trust systems." name="description"/>
+<link href="https://inbasekaran.com/" rel="canonical"/>
+<link as="font" crossorigin="" href="assets/fonts/inter-600.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="assets/fonts/inter-400.woff2" rel="preload" type="font/woff2"/>
+<link href="assets/studio.css?v=20261026-interests1" rel="stylesheet"/>
+<link href="assets/brand/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/brand/favicon-64.png" rel="icon" sizes="64x64" type="image/png"/>
 </head>
 <body>
-  <a class="skip-link" href="#top">Skip to content</a>
-
-
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="#top" class="brand">
-        <span>Inbasekaran S</span>
-        <span class="brand-domain">inbasekaran.com</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary Navigation">
-        <a href="#research">Research</a>
-        <a href="#awards">Awards</a>
-        <a href="#service">Service</a>
-        <a href="#writing">Writing</a>
-        <a href="mailto:inba.research.ilrl.labs@gmail.com">Contact</a>
-        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
-          <svg id="sunIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg id="moonIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </nav>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-content">
-        <p class="eyebrow">Researcher Â· Builder Â· Author</p>
-        <h1 class="hero-name" id="hero-heading">Inbasekaran S<span style="color:var(--accent)">.</span></h1>
-        <p class="hero-subtitle">Making intelligence<br>more efficient.</p>
-        <p class="hero-summary">
-          <span class="hero-summary-lead">I Research on LLM inference and ML systems.</span>
-          <span class="hero-summary-detail">Exploring how information theory and thoughtful systems design can make AI do more with less.</span>
-          <span class="hero-summary-detail"><a href="https://bruce12-glitch.github.io/ILRL-Labs/" target="_blank" rel="noopener">Founder, ILRL Labs</a> â€” a research lab focused on LLM inference efficiency and ML systems.</span>
-          <span class="hero-summary-detail"><a href="https://bruce12-glitch.github.io/Neuroplastic/" target="_blank" rel="noopener">Founder, Intellect</a> â€” a non-profit organization for book readers and researchers.</span>
-        </p>
-        <div class="hero-actions">
-          <a class="button" href="#research">Explore my research <span aria-hidden="true">â†—</span></a>
-          <a class="button button-secondary" href="mailto:inba.research.ilrl.labs@gmail.com">Get in touch <span aria-hidden="true">â†—</span></a>
-        </div>
-        <div class="social-row" aria-label="Social profiles">
-          <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar ↗</a>
-          <a href="https://github.com/bruce12-glitch" target="_blank" rel="noopener">GitHub ↗</a>
-          <a href="https://www.linkedin.com/in/inbasekaran-s-106a90383/" target="_blank" rel="noopener">LinkedIn ↗</a>
-          <a href="https://bruce12-glitch.github.io/Neuroplastic/" target="_blank" rel="noopener">Blog ↗</a>
-        </div>
-      </div>
-      <figure class="portrait-wrap">
-        <div class="portrait-frame"><img src="assets/inbasekaran-portrait.jpg" alt="Inbasekaran S in a black blazer, photographed in black and white" width="1254" height="1254" fetchpriority="high" decoding="async"></div>
-        <figcaption class="portrait-note"><span>Based in India</span><span>AI systems &amp; LLM inference</span></figcaption>
-      </figure>
-    </section>
-    <aside class="about-strip" aria-labelledby="about-heading">
-      <h2 id="about-heading">Curiosity, translated<br>into systems.</h2>
-        <div class="hero-bio">
-          <p>
-            Hi! I am a pre-final-year undergraduate studying Computer Science and Engineering (Cyber Security) at
-            <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRM Institute of Science and Technology (SRMIST)</a>
-            (CGPA: 8.66/10, expected May 2028).
-          </p>
-          <p>
-            My research focuses on <strong>LLM inference efficiency</strong> and <strong>ML systems</strong>, specifically information-theoretic
-            context pruning (<a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">EntroPrefill</a>) and hardware-aligned
-            KV-cache management (<a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">Page-EntroKV</a>) under grouped-query attention.
-            Alongside my research, I build AI agent workspaces and zero-trust cryptographic verification systems, and I am the author of
-            <em><a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Neither Living Nor Dying: Reflection of the Middle</a></em>.
-          </p>
-        </div>
-    </aside>
-
-    <!-- Research / Selected Publications Section -->
-    <section id="research">
-      <h2 class="section-title">Selected research.</h2>      <div class="mascot-host" data-mascot="research" tabindex="0" role="button" aria-label="Research â€” LLM inference efficiency, EntroPrefill & Page-EntroKV" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Research mascot - curious scholar with magnifying glass">
-  <defs>
-    <linearGradient id="research-body" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#E8F4FD;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#D1E8FC;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="research-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#A8D0FF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#7AB8FF;stop-opacity:1" />
-    </linearGradient>
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#151515" flood-opacity="0.08"/>
-    </filter>
-  </defs>
-  <!-- Body (rounded rectangle with subtle curve) -->
-  <rect x="20" y="35" width="80" height="65" rx="16" fill="url(#research-body)" filter="url(#soft-shadow)"/>
-  <!-- Head -->
-  <ellipse cx="60" cy="32" rx="28" ry="26" fill="url(#research-body)" filter="url(#soft-shadow)"/>
-  <!-- Face features -->
-  <!-- Eyes - simple dots that can blink -->
-  <g class="mascot-eyes">
-    <circle cx="50" cy="28" r="3.5" fill="#2D3A4A" class="eye-left"/>
-    <circle cx="70" cy="28" r="3.5" fill="#2D3A4A" class="eye-right"/>
-  </g>
-  <!-- Cheeks -->
-  <circle cx="40" cy="38" r="5" fill="#F5D6E8" opacity="0.6" class="cheek-left"/>
-  <circle cx="80" cy="38" r="5" fill="#F5D6E8" opacity="0.6" class="cheek-right"/>
-  <!-- Magnifying glass (held) -->
-  <g class="mascot-prop" transform="translate(95, 55)">
-    <circle r="14" fill="none" stroke="#7AB8FF" stroke-width="3"/>
-    <line x1="10" y1="10" x2="22" y2="22" stroke="#7AB8FF" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="0" cy="0" r="13" fill="#E8F4FD" opacity="0.3"/>
-  </g>
-  <!-- Notebook on belly -->
-  <rect x="45" y="58" width="30" height="24" rx="4" fill="#FFF" opacity="0.9" stroke="#E5E5E9" stroke-width="1.5"/>
-  <line x1="45" y1="65" x2="75" y2="65" stroke="#BDBDC4" stroke-width="1" stroke-dasharray="3 2"/>
-  <line x1="45" y1="72" x2="75" y2="72" stroke="#BDBDC4" stroke-width="1" stroke-dasharray="3 2"/>
-  <!-- Tiny sparkles around -->
-  <g class="mascot-sparkles" opacity="0.7">
-    <polygon points="6,52 8,56 4,56" fill="#FFD966"/>
-    <polygon points="112,55 114,59 110,59" fill="#A8D0FF"/>
-    <polygon points="10,85 12,89 8,89" fill="#F5D6E8"/>
-  </g>
-</svg>
-        <div class="mascot-tooltip">Research â€” LLM inference efficiency, EntroPrefill & Page-EntroKV</div>
-      </div>
-      <p class="section-subtitle">
-        I study efficient LLM inference, information-theoretic attention and context pruning, hardware-aligned KV-cache allocation under grouped-query attention, and zero-trust cryptographic systems.
-      </p>
-
-      <div class="entry-list">
-        <!-- Paper 1: EntroPrefill -->
-        <article class="entry-card">
-          <div class="entry-thumb" aria-hidden="true">
-            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
-              <text x="14" y="24" fill="var(--text-muted)" font-family="monospace" font-size="7.5">Sink-Isolated RÃ©nyi Hâ‚‚(A)</text>
-              <rect x="14" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.85" />
-              <rect x="46" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.25" />
-              <rect x="78" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.9" />
-              <rect x="110" y="32" width="28" height="14" rx="2" fill="var(--accent)" opacity="0.2" />
-              <path d="M28 50 L48 68 M92 50 L76 68" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2 2" />
-              <rect x="34" y="70" width="56" height="20" rx="3" fill="var(--badge-bg)" stroke="var(--accent)" stroke-width="1" />
-              <text x="41" y="83" fill="var(--accent)" font-family="sans-serif" font-weight="bold" font-size="8">Audited R*</text>
-              <rect x="102" y="66" width="62" height="26" rx="4" fill="var(--highlight-bg)" />
-              <text x="109" y="78" fill="var(--highlight-text)" font-family="monospace" font-weight="bold" font-size="8.5">-43.1% TTFT</text>
-              <text x="109" y="87" fill="var(--highlight-text)" font-family="sans-serif" font-size="6.5">arXiv:2610.09757</text>
-            </svg>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-title">
-              <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">
-                EntroPrefill: RÃ©nyi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation
-              </a>
-            </h3>
-            <div class="entry-authors"><strong>Inbasekaran S</strong></div>
-            <div class="entry-meta">
-              <span class="badge">arXiv:2610.09757v1 [cs.LG] Â· Oct 2026</span>
-              <span class="badge badge-highlight">-43.1% TTFT</span>
-              <span class="paper-links">
-                / <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener">[arXiv HTML]</a>
-                / <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en&amp;authuser=5" target="_blank" rel="noopener">[Scholar]</a>
-              </span>
-            </div>
-            <p class="entry-desc">
-              Formulates mid-prefill context pruning as a sink-isolated Order-2 RÃ©nyi proposal mechanism coupled to explicit constraints on discarded attention mass, mixture-to-head deletion envelopes, dual optimality-gap certificates, and independent adaptive-layer observer auditing.
-            </p>
-            <ul class="entry-bullets">
-              <li>Optimized LLM inference efficiency by implementing EntroPrefill, a training-free context pruning method that cut Time-To-First-Token (TTFT) by 43.1%.</li>
-              <li>Engineered an information-theoretic scoring function utilizing Order-2 RÃ©nyi entropy on GQA-pooled attention with conditional transformer perturbation bounds.</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- Paper 2: Page-EntroKV -->
-        <article class="entry-card">
-          <div class="entry-thumb" aria-hidden="true">
-            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
-              <text x="14" y="23" fill="var(--text-muted)" font-family="monospace" font-size="7.5">GQA Page Tuple (l, g, p) Â· UOR=1.0</text>
-              <g transform="translate(14, 30)">
-                <rect x="0" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
-                <text x="5" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page 0</text>
-                <rect x="39" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
-                <text x="44" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page 1</text>
-                <rect x="78" y="0" width="34" height="26" rx="2" fill="var(--bg)" stroke="var(--border-strong)" stroke-dasharray="2 2" />
-                <text x="82" y="16" fill="var(--text-muted)" font-family="monospace" font-size="6.5">Evicted</text>
-                <rect x="117" y="0" width="34" height="26" rx="2" fill="var(--badge-bg)" stroke="var(--accent)" />
-                <text x="122" y="16" fill="var(--accent)" font-family="monospace" font-size="7">Page K</text>
-              </g>
-              <rect x="14" y="66" width="151" height="24" rx="3" fill="var(--bg)" stroke="var(--border)" />
-              <text x="20" y="77" fill="var(--text)" font-family="sans-serif" font-weight="600" font-size="7.5">100% Needle Recall @ 20% Budget</text>
-              <text x="20" y="86" fill="var(--text-muted)" font-family="monospace" font-size="6.5">arXiv:2610.03135 Â· Hamilton-Hare Pages</text>
-            </svg>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-title">
-              <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">
-                Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention
-              </a>
-            </h3>
-            <div class="entry-authors"><strong>Inbasekaran S</strong></div>
-            <div class="entry-meta">
-              <span class="badge">arXiv:2610.03135v1 Â· Oct 2026</span>
-              <span class="badge badge-highlight">UOR 1.000 Â· 100% Needle Recall</span>
-              <span class="paper-links">
-                / <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener">[arXiv HTML]</a>
-                / <a href="https://arxiv.org/abs/2610.03135" target="_blank" rel="noopener">[Abstract]</a>
-              </span>
-            </div>
-            <p class="entry-desc">
-              A formal framework for KV-cache eviction operating at the hardware tuple <code>(layer, group, page)</code> that GQA serving engines such as vLLM actually allocate, pooling heads via sink-isolated RÃ©nyi-2 collision entropy and discrete Hamilton-Hare largest-remainder page allocation.
-            </p>
-            <ul class="entry-bullets">
-              <li>Formalizes the Union Overhead Ratio (UOR), holding UOR at exactly 1.000 (versus up to 4.75Ã—â€“5.1Ã— cache inflation under head-independent replay on Qwen2.5-1.5B-Instruct).</li>
-              <li>Removes a 13Ã— attention-sink masquerade and achieves 100% needle recall at a 20% KV budget where arithmetic-mean pooling collapses to 0%.</li>
-            </ul>
-          </div>
-        </article>
-
-        <!-- Research 3: VendorChain UROP -->
-        <article class="entry-card">
-          <div class="entry-thumb" aria-hidden="true">
-            <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="8" width="168" height="94" rx="6" fill="var(--bg-elevated)" stroke="var(--border)" />
-              <text x="14" y="23" fill="var(--text-muted)" font-family="monospace" font-size="7.2">NIST SP 800-207 Zero-Trust</text>
-              <rect x="14" y="32" width="44" height="32" rx="3" fill="var(--bg)" stroke="var(--accent)" />
-              <text x="19" y="46" fill="var(--text)" font-family="sans-serif" font-weight="bold" font-size="7">AES-256</text>
-              <text x="19" y="56" fill="var(--text-muted)" font-family="monospace" font-size="6">GCM Intake</text>
-              <line x1="58" y1="48" x2="68" y2="48" stroke="var(--accent)" stroke-width="1.5" />
-              <rect x="68" y="32" width="44" height="32" rx="3" fill="var(--bg)" stroke="var(--accent)" />
-              <text x="73" y="46" fill="var(--text)" font-family="sans-serif" font-weight="bold" font-size="7">Syft+Cosign</text>
-              <text x="73" y="56" fill="var(--text-muted)" font-family="monospace" font-size="6">SBOM Sign</text>
-              <line x1="112" y1="48" x2="122" y2="48" stroke="var(--accent)" stroke-width="1.5" />
-              <rect x="122" y="32" width="44" height="32" rx="3" fill="var(--badge-bg)" stroke="var(--accent)" />
-              <text x="126" y="46" fill="var(--accent)" font-family="sans-serif" font-weight="bold" font-size="7">Fabric Go</text>
-              <text x="126" y="56" fill="var(--accent)" font-family="monospace" font-size="6">SHA-256</text>
-              <text x="14" y="84" fill="var(--text-secondary)" font-family="monospace" font-size="7">Immutable B2B Provenance Ledger</text>
-            </svg>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-title">VendorChain â€” Zero-Trust B2B Supply-Chain Verification Engine</h3>
-            <div class="entry-authors">
-              <strong>Inbasekaran S</strong> Â· Undergraduate Research Opportunities Program (UROP) at <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRMIST</a>
-            </div>
-            <div class="entry-meta">
-              <span class="badge">UROP Research</span>
-              <span class="badge">Zero-Trust &amp; Cryptography</span>
-            </div>
-            <p class="entry-desc">
-              End-to-end cryptographic software supply-chain verification architecture combining zero-trust binary intake, automated SBOM attestation, and permissioned blockchain auditability.
-            </p>
-            <ul class="entry-bullets">
-              <li>Architected a NIST SP 800-207-aligned zero-trust intake pipeline with binary magic-byte validation and AES-256-GCM envelope encryption with in-memory zeroing.</li>
-              <li>Engineered an automated CI/CD supply-chain integrity layer using Syft (CycloneDX SBOM extraction) and Cosign cryptographic signing for tamper-proof artifact provenance.</li>
-              <li>Deployed a private Hyperledger Fabric network with custom Go chaincode persisting immutable SHA-256 artifact hashes, policy verdicts, and timestamps.</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Recently. -->
-    <section id="updates">
-      <h2 class="section-title">Recently.</h2>      <div class="mascot-host" data-mascot="updates" tabindex="0" role="button" aria-label="Updates â€” Latest papers, internships, and achievements" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Updates mascot - news bearer with newspaper and megaphone">
-  <defs>
-    <linearGradient id="updates-body" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FEF7D6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FDF0BC;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="updates-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD966;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFC947;stop-opacity:1" />
-    </linearGradient>
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#151515" flood-opacity="0.08"/>
-    </filter>
-  </defs>
-  <!-- Body -->
-  <rect x="20" y="35" width="80" height="65" rx="16" fill="url(#updates-body)" filter="url(#soft-shadow)"/>
-  <!-- Head -->
-  <ellipse cx="60" cy="32" rx="28" ry="26" fill="url(#updates-body)" filter="url(#soft-shadow)"/>
-  <!-- Eyes - alert, curious -->
-  <g class="mascot-eyes">
-    <circle cx="50" cy="28" r="4" fill="#2D3A4A" class="eye-left"/>
-    <circle cx="70" cy="28" r="4" fill="#2D3A4A" class="eye-right"/>
-    <circle cx="52" cy="26" r="1.5" fill="#FFF"/>
-    <circle cx="72" cy="26" r="1.5" fill="#FFF"/>
-  </g>
-  <!-- Cheeks -->
-  <circle cx="38" cy="40" r="5" fill="#FFD966" opacity="0.6" class="cheek-left"/>
-  <circle cx="82" cy="40" r="5" fill="#FFD966" opacity="0.6" class="cheek-right"/>
-  <!-- Excited mouth -->
-  <path d="M50 42 Q60 38 70 42" fill="none" stroke="#2D3A4A" stroke-width="2" stroke-linecap="round"/>
-  <!-- Newspaper (held) -->
-  <g class="mascot-prop" transform="translate(12, 55)">
-    <rect x="0" y="0" width="30" height="40" rx="3" fill="#FFF" stroke="#E5E5E9" stroke-width="1.5"/>
-    <rect x="4" y="4" width="22" height="6" rx="1" fill="#2D3A4A" opacity="0.8"/>
-    <rect x="4" y="14" width="22" height="3" rx="1" fill="#BDBDC4" opacity="0.6"/>
-    <rect x="4" y="20" width="18" height="3" rx="1" fill="#BDBDC4" opacity="0.6"/>
-    <rect x="4" y="26" width="22" height="3" rx="1" fill="#BDBDC4" opacity="0.6"/>
-    <rect x="4" y="32" width="15" height="3" rx="1" fill="#BDBDC4" opacity="0.6"/>
-    <!-- Fold line -->
-    <line x1="15" y1="0" x2="15" y2="40" stroke="#FFD966" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
-  </g>
-  <!-- Megaphone (held up) -->
-  <g class="mascot-prop" transform="translate(95, 45) rotate(-15)">
-    <path d="M0 0 L-20 -10 L-20 10 Z" fill="url(#updates-accent)" stroke="#FFC947" stroke-width="1.5"/>
-    <path d="M-20 -10 L-35 -18 L-35 18 L-20 10" fill="url(#updates-accent)" stroke="#FFC947" stroke-width="1.5"/>
-    <line x1="-35" y1="-18" x2="-35" y2="18" stroke="#FFD966" stroke-width="2" opacity="0.5"/>
-    <circle cx="-27" cy="0" r="3" fill="#2D3A4A" opacity="0.6"/>
-  </g>
-  <!-- Floating new badges/sparkles -->
-  <g class="mascot-sparkles" opacity="0.8">
-    <rect x="100" y="20" width="16" height="10" rx="2" fill="#FFD966">
-      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
-    </rect>
-    <text x="101" y="28" font-size="7" fill="#2D3A4A" font-weight="bold" font-family="system-ui">NEW</text>
-    <circle cx="15" cy="35" r="3" fill="#A8D0FF">
-      <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="105" cy="80" r="2.5" fill="#FFB3C6"/>
-    <polygon points="60,8 62,12 58,12" fill="#FFD966"/>
-    <polygon points="60,105 62,109 58,109" fill="#A8D0FF"/>
-  </g>
-</svg>
-        <div class="mascot-tooltip">Updates â€” Latest papers, internships, and achievements</div>
-      </div>
-      <ul class="updates-list">
-        <li class="update-item">
-          <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.09757v1" target="_blank" rel="noopener"><strong>EntroPrefill: RÃ©nyi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv (<code>arXiv:2610.09757v1</code>).</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Oct. 2026</span>
-          <span>Released <a href="https://arxiv.org/html/2610.03135v1" target="_blank" rel="noopener"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv (<code>arXiv:2610.03135v1</code>).</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Jul â€“ Aug 2026</span>
-          <span>Completed the <strong>AICTE AWS Gen AI Virtual Internship</strong>, designing model training and evaluation labs on Amazon SageMaker and AWS Academy.</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">Apr â€“ Jun 2026</span>
-          <span>Completed the <strong>AICTE Google AI/ML Virtual Internship</strong> focused on applied machine learning labs and systems exercises.</span>
-        </li>
-        <li class="update-item">
-          <span class="update-date">2025 â€“ 2026</span>
-          <span>Recognized as <strong>Winner of the Raccoon AI Hackathon</strong>, <strong>National Finalist at Shark Tank Nationals</strong>, and ranked in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turks.</span>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Experience & Education Section -->
-    <section id="experience">
-      <h2 class="section-title">Learning &amp; experience.</h2>
-      <div class="timeline-list">
-        <div class="timeline-row">
-          <div class="timeline-period">Jul â€“ Aug 2026</div>
-          <div class="timeline-main">
-            <div class="timeline-title">AICTE AWS Gen AI Intern <span class="badge" style="margin-left:0.35rem;">Virtual</span></div>
-            <div class="timeline-sub">
-              Executed lab-based generative AI exercises and planned model training and evaluation labs using Amazon SageMaker and AWS Academy environments, with documented accuracy and performance metrics.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">Apr â€“ Jun 2026</div>
-          <div class="timeline-main">
-            <div class="timeline-title">AICTE Google Virtual Intern â€” AI/ML <span class="badge" style="margin-left:0.35rem;">Virtual</span></div>
-            <div class="timeline-sub">
-              Completed structured lab-oriented exercises, practical machine learning workflows, and applied AI/ML projects.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-row" id="education">
-          <div class="timeline-period">2024 â€“ 2028</div>
-          <div class="timeline-main">
-            <div class="timeline-title">
-              <a href="https://www.srmist.edu.in/" target="_blank" rel="noopener">SRM Institute of Science and Technology (SRMIST)</a>
-            </div>
-            <div class="timeline-sub">
-              <strong>B.Tech in Computer Science &amp; Engineering (Cyber Security)</strong> Â· CGPA: <strong>8.66 / 10</strong> (Expected May 2028)<br />
-              <em>Relevant Coursework:</em> Data Structures &amp; Algorithms, Database Management Systems, Computer Networks, Operating Systems, Artificial Intelligence, Information Security, System Design.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Selected Awards & Certifications -->
-    <section id="awards">
-      <h2 class="section-title">Recognition.</h2>      <div class="mascot-host" data-mascot="awards" tabindex="0" role="button" aria-label="Awards â€” Raccoon AI Hackathon, Shark Tank Nationals, Young Turks 99.32%" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Awards mascot - cheerful achiever with trophy">
-  <defs>
-    <linearGradient id="awards-body" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFF4E5;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFE8CC;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="awards-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD966;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFC947;stop-opacity:1" />
-    </linearGradient>
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#151515" flood-opacity="0.08"/>
-    </filter>
-  </defs>
-  <!-- Body -->
-  <rect x="20" y="35" width="80" height="65" rx="16" fill="url(#awards-body)" filter="url(#soft-shadow)"/>
-  <!-- Head -->
-  <ellipse cx="60" cy="32" rx="28" ry="26" fill="url(#awards-body)" filter="url(#soft-shadow)"/>
-  <!-- Eyes - bright and proud -->
-  <g class="mascot-eyes">
-    <circle cx="50" cy="28" r="3.5" fill="#2D3A4A" class="eye-left"/>
-    <circle cx="70" cy="28" r="3.5" fill="#2D3A4A" class="eye-right"/>
-    <!-- Sparkle in eyes -->
-    <circle cx="52" cy="26" r="1.2" fill="#FFF" opacity="0.8"/>
-    <circle cx="72" cy="26" r="1.2" fill="#FFF" opacity="0.8"/>
-  </g>
-  <!-- Cheeks - rosy -->
-  <circle cx="40" cy="38" r="6" fill="#FFB3C6" opacity="0.7" class="cheek-left"/>
-  <circle cx="80" cy="38" r="6" fill="#FFB3C6" opacity="0.7" class="cheek-right"/>
-  <!-- Smiling mouth -->
-  <path d="M50 42 Q60 48 70 42" fill="none" stroke="#2D3A4A" stroke-width="2" stroke-linecap="round"/>
-  <!-- Trophy (held high) -->
-  <g class="mascot-prop" transform="translate(95, 25)">
-    <!-- Cup -->
-    <path d="M-8 0 L-8 -28 L8 -28 L8 0 Z" fill="url(#awards-accent)" stroke="#FFC947" stroke-width="1.5"/>
-    <ellipse cx="0" cy="-28" rx="10" ry="4" fill="url(#awards-accent)" stroke="#FFC947" stroke-width="1.5"/>
-    <!-- Handles -->
-    <path d="M-8 -4 Q-16 -12 -8 -20" fill="none" stroke="#FFC947" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M8 -4 Q16 -12 8 -20" fill="none" stroke="#FFC947" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Base -->
-    <rect x="-10" y="0" width="20" height="4" rx="1" fill="#FFC947"/>
-    <rect x="-8" y="4" width="16" height="3" rx="1" fill="#FFD966"/>
-    <!-- Star on trophy -->
-    <polygon points="0,-30 -1,-25 -6,-25 -2,-22 -3,-17 0,-20 3,-17 -2,-22 6,-25 1,-25" fill="#FFF" opacity="0.9"/>
-  </g>
-  <!-- Confetti/sparkles -->
-  <g class="mascot-sparkles" opacity="0.8">
-    <circle cx="15" cy="25" r="2.5" fill="#FFD966"/>
-    <circle cx="105" cy="30" r="2" fill="#A8D0FF"/>
-    <circle cx="10" cy="75" r="2" fill="#FFB3C6"/>
-    <polygon points="60,8 62,12 58,12" fill="#FFD966"/>
-    <polygon points="60,105 62,109 58,109" fill="#A8D0FF"/>
-  </g>
-</svg>
-        <div class="mascot-tooltip">Awards â€” Raccoon AI Hackathon, Shark Tank Nationals, Young Turks 99.32%</div>
-      </div>
-      <div class="timeline-list">
-        <div class="timeline-row">
-          <div class="timeline-period">Hackathon Winner</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Winner, Raccoon AI Hackathon</div>
-            <div class="timeline-sub">First-place winner recognized for building and demonstrating an applied AI system.</div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">National Finalist</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Shark Tank Nationals</div>
-            <div class="timeline-sub">Selected as a National Finalist; pitched an AI product prototype directly to an investor panel.</div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">Top 10 Finalist</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Hack Rush Hackathon</div>
-            <div class="timeline-sub">Shipped a complete, functional software MVP within a 24-hour sprint to place in the Top 10.</div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">Top 0.68% India</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Naukri Campus Young Turks</div>
-            <div class="timeline-sub">Ranked in the <strong>99.32 national percentile</strong> in coding and technology assessments across India.</div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">2026</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Oracle Cloud &amp; AI 4x Foundations Associate</div>
-            <div class="timeline-sub">Issued by Oracle (2026).</div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">2025</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Prompt Engineering for Generative AI Â· NPTEL Silver Rank Â· Lean Six Sigma Green Belt</div>
-            <div class="timeline-sub">
-              DeepLearning.AI / Coursera (2025) Â· NPTEL Silver Rank in Fundamentals of C/C++/Java/DBMS (2025) Â· IASSC Lean Six Sigma Green Belt (2025).
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Leadership, Campus Service & Technical Skills -->
-    <section id="service">
-      <h2 class="section-title">Beyond the research.</h2>
-      <div class="timeline-list" style="margin-bottom: 2.5rem;">
-        <div class="timeline-row">
-          <div class="timeline-period">Aug 2025 â€“ Aug 2026</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Creatives &amp; Sponsorship Lead, Founders Club SRMIST</div>
-            <div class="timeline-sub">
-              Led cross-functional teams across technical, creative, and outreach operations to execute 5+ university startup events. Optimized team communication workflows, reducing deliverable turnaround time by 25% under tight deadlines.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">Aug 2025 â€“ Aug 2026</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Technical Member, E-Cell SRMIST</div>
-            <div class="timeline-sub">
-              Developed creative websites and promotional materials for campus entrepreneurship events.
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-row">
-          <div class="timeline-period">Aug 2024 â€“ Present</div>
-          <div class="timeline-main">
-            <div class="timeline-title">Corporate Member, IEEE Student Branch SRMIST</div>
-            <div class="timeline-sub">
-              Coordinated corporate outreach and sponsorship initiatives, securing industry partners for technical events.
-            </div>
-          </div>
-        </div>
-      </div></section>
-    <section id="writing">
-      <h2 class="section-title">A different kind of exploration.</h2>      <div class="mascot-host" data-mascot="writing" tabindex="0" role="button" aria-label="Writing â€” "Neither Living Nor Dying: Reflection of the Middle" on Amazon" aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Writing mascot - thoughtful author with quill and book">
-  <defs>
-    <linearGradient id="writing-body" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#F3E8FF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#E8D4FF;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="writing-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#C8A8FF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#A888FF;stop-opacity:1" />
-    </linearGradient>
-    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#151515" flood-opacity="0.08"/>
-    </filter>
-  </defs>
-  <!-- Body -->
-  <rect x="20" y="35" width="80" height="65" rx="16" fill="url(#writing-body)" filter="url(#soft-shadow)"/>
-  <!-- Head -->
-  <ellipse cx="60" cy="32" rx="28" ry="26" fill="url(#writing-body)" filter="url(#soft-shadow)"/>
-  <!-- Eyes - thoughtful, slightly narrowed -->
-  <g class="mascot-eyes">
-    <ellipse cx="50" cy="28" rx="4" ry="3" fill="#2D3A4A" class="eye-left"/>
-    <ellipse cx="70" cy="28" rx="4" ry="3" fill="#2D3A4A" class="eye-right"/>
-    <!-- Eyelids for thoughtful look -->
-    <ellipse cx="50" cy="26" rx="4" ry="1.5" fill="url(#writing-body)"/>
-    <ellipse cx="70" cy="26" rx="4" ry="1.5" fill="url(#writing-body)"/>
-  </g>
-  <!-- Cheeks - subtle -->
-  <circle cx="38" cy="38" r="4" fill="#E8D4FF" opacity="0.8" class="cheek-left"/>
-  <circle cx="82" cy="38" r="4" fill="#E8D4FF" opacity="0.8" class="cheek-right"/>
-  <!-- Small contemplative mouth -->
-  <ellipse cx="60" cy="42" rx="3" ry="1.5" fill="#2D3A4A" opacity="0.6"/>
-  <!-- Open book on lap -->
-  <g class="mascot-prop" transform="translate(12, 55)">
-    <path d="M0 0 L0 30 L25 30 L25 0 Z" fill="#FFF" stroke="#E5E5E9" stroke-width="1.5"/>
-    <path d="M0 0 L0 30 L25 30 L25 0 Z" fill="none" stroke="#A888FF" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
-    <!-- Spine -->
-    <line x1="12.5" y1="0" x2="12.5" y2="30" stroke="#C8A8FF" stroke-width="1.5" opacity="0.5"/>
-    <!-- Lines on pages -->
-    <g stroke="#BDBDC4" stroke-width="0.8" opacity="0.6">
-      <line x1="3" y1="8" x2="22" y2="8"/>
-      <line x1="3" y1="13" x2="22" y2="13"/>
-      <line x1="3" y1="18" x2="22" y2="18"/>
-      <line x1="3" y1="23" x2="22" y2="23"/>
-    </g>
-  </g>
-  <!-- Quill pen (held) -->
-  <g class="mascot-prop" transform="translate(95, 50) rotate(-30)">
-    <!-- Feather -->
-    <path d="M0 0 Q-8 -15 -4 -30 Q0 -25 4 -30 Q8 -15 0 0" fill="#C8A8FF" opacity="0.9"/>
-    <path d="M0 0 Q-4 -10 -2 -20 Q0 -17 2 -20 Q4 -10 0 0" fill="#A888FF" opacity="0.7"/>
-    <!-- Nib -->
-    <path d="M-1 0 L1 0 L0 6 Z" fill="#2D3A4A"/>
-    <!-- Ink drop -->
-    <circle cx="2" cy="8" r="1.5" fill="#A888FF" opacity="0.7"/>
-  </g>
-  <!-- Floating letters/ink blots -->
-  <g class="mascot-sparkles" opacity="0.7" font-family="Georgia, serif" font-size="14" font-weight="600">
-    <text x="105" y="30" fill="#C8A8FF">âœ¦</text>
-    <text x="10" y="35" fill="#A888FF">âœ§</text>
-    <text x="100" y="80" fill="#C8A8FF">âœ¦</text>
-    <text x="15" y="90" fill="#A888FF">âœ§</text>
-  </g>
-</svg>
-        <div class="mascot-tooltip">Writing â€” "Neither Living Nor Dying: Reflection of the Middle" on Amazon</div>
-      </div>
-      <div class="entry-list">
-        <article class="entry-card">
-          <div class="entry-thumb">
-            <a class="book-cover" href="https://a.co/d/08D406kn" target="_blank" rel="noopener">
-              <img src="assets/neither-living-nor-dying-cover.webp" alt="Book cover for Neither Living Nor Dying: Reflections on the Middle by Inbasekaran S" width="300" height="438" loading="lazy" decoding="async">
-            </a>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-title">
-              <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">
-                Neither Living Nor Dying: Reflection of the Middle
-              </a>
-            </h3>
-            <div class="entry-authors">
-              <strong>Inbasekaran S</strong> Â· Authored Book
-            </div>
-            <div class="entry-meta">
-              <span class="badge">Published Book</span>
-              <span class="paper-links">
-                / <a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">[Amazon]</a>
-              </span>
-            </div>
-            <p class="entry-desc">
-              Beyond computer science and machine learning systems, I explore philosophical and reflective writing. My book,
-              <em><a href="https://a.co/d/08D406kn" target="_blank" rel="noopener">Neither Living Nor Dying: Reflection of the Middle</a></em>,
-              is available on Amazon.
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="contact" id="contact" aria-labelledby="contact-heading">
-      <p class="eyebrow">Let's connect</p>
-      <h2 id="contact-heading">Good ideas start<br>with a conversation.</h2>
-      <p>For research, collaborations, or a thoughtful hello.</p>
-      <a class="button" href="mailto:inba.research.ilrl.labs@gmail.com">Send me an email <span aria-hidden="true">â†—</span></a>
-      <a class="contact-email" href="mailto:inba.research.ilrl.labs@gmail.com">inba.research.ilrl.labs@gmail.com</a>
-      <button class="copy-email-btn" data-email="inba.research.ilrl.labs@gmail.com" type="button" aria-live="polite">Copy email address</button>
-    </section>
-    <footer>
-      <span>Â© 2026 Inbasekaran S</span>
-      <span>Research with purpose. Systems with care.</span>
-      <a href="mailto:inba.research.ilrl.labs@gmail.com">Email â†—</a>
-    </footer>
-  </main>
-
-  <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const htmlEl = document.documentElement;
-    const preference = window.matchMedia('(prefers-color-scheme: dark)');
-    let savedTheme;
-    try { savedTheme = localStorage.getItem('inbasekaran_theme'); } catch (_) {}
-    function applyTheme(theme) {
-      htmlEl.dataset.theme = theme;
-      document.getElementById('sunIcon').style.display = theme === 'dark' ? 'block' : 'none';
-      document.getElementById('moonIcon').style.display = theme === 'dark' ? 'none' : 'block';
-      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance');
-      themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
-    }
-    applyTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : preference.matches ? 'dark' : 'light');
-    themeToggle.addEventListener('click', () => {
-      savedTheme = htmlEl.dataset.theme === 'dark' ? 'light' : 'dark';
-      applyTheme(savedTheme);
-      try { localStorage.setItem('inbasekaran_theme', savedTheme); } catch (_) {}
-    });
-    preference.addEventListener('change', event => { if (!savedTheme) applyTheme(event.matches ? 'dark' : 'light'); });
-    document.querySelectorAll('.copy-email-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(btn.dataset.email);
-          btn.textContent = 'Email copied';
-        } catch (_) {
-          btn.textContent = 'Select the email address above to copy';
-        }
-        window.setTimeout(() => { btn.textContent = 'Copy email address'; }, 2500);
-      });
-    });
-  </script>
-  
+<a class="skip-link" href="#top">Skip to content</a>
+<header class="site-header">
+<div class="nav-container">
+<a class="brand" href="#top"><img alt="" decoding="async" height="44" src="assets/brand/inbasekaran-mark.png" width="44"/> <span>Inbasekaran S<span class="brand-dot">.</span></span></a> <button aria-controls="primary-nav" aria-expanded="false" class="menu-toggle" type="button"> Menu <span aria-hidden="true"> â˜° </span> </button>
+<nav aria-label="Primary navigation" class="nav-links" id="primary-nav">
+<a href="#research">Research</a> <a href="#about">About</a> <a href="#awards">Recognition</a> <a href="#writing">Writing</a> <a class="nav-contact" href="#contact">Letâ€™s talk <span aria-hidden="true"> â†— </span></a>
+</nav>
+<div class="appearance-controls">
+<button aria-label="Turn off cursor effect" aria-pressed="true" class="cursor-toggle" id="cursor-toggle" title="Turn off cursor effect" type="button"> <svg aria-hidden="true" fill="none" viewbox="0 0 24 24"> <path d="m7 4 11 9-6 1-3 6z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"> </path> <path d="M18 3v4m-2-2h4M3 11v4m-2-2h4" stroke="currentColor" stroke-linecap="round" stroke-width="1.3"> </path> </svg> <span class="sr-only"> Cursor effect </span> </button>
+</div>
+</div>
+</header>
+<main id="top">
+<section aria-labelledby="hero-heading" class="hero">
+<div class="hero-copy">
+<p class="hero-kicker">
+<span aria-hidden="true" class="tiny-star"> âœ³ </span> RESEARCHER Â· READER Â· AUTHOR 
+</p>
+<h1 id="hero-heading">
+Inbasekaran S<span>.</span>
+</h1>
+<p class="hero-intro">
+ Iâ€™m a third-year undergraduate at SRMIST, working on LLM inference and memory systems. Founder of ILRL Labs - Inference in Loops and Recurrence Learning. Founder of Intellect â€” a non-profit for book readers and researchers.
+</p>
+<p class="hero-detail">
+ My research interests are LLM inference and ML systems, agentic memory, and inference in AGI and development.
+</p>
+<div class="hero-actions">
+<a class="button" href="#research">Read my research <span aria-hidden="true"> â†— </span></a> <a class="button button-secondary" href="#contact">Get in touch <span aria-hidden="true"> â†’ </span></a>
+</div>
+<div aria-label="Social profiles" class="social-row">
+<a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&hl=en" rel="noopener" target="_blank">Google Scholar &#x2197;</a> <a href="https://github.com/bruce12-glitch" rel="noopener" target="_blank">GitHub &#x2197;</a> <a href="https://www.linkedin.com/in/inbasekaran-s-106a90383/" rel="noopener" target="_blank">LinkedIn &#x2197;</a> <a href="https://bruce12-glitch.github.io/Neuroplastic/" rel="noopener" target="_blank">Blog &#x2197;</a>
+</div>
+</div>
+<div class="hero-visual">
+<figure class="illustrated-profile">
+<img alt="Hand-drawn portrait of Inbasekaran S" decoding="async" fetchpriority="high" height="1024" src="assets/studio/illustrated-portrait.png" width="765"/>
+<figcaption>
+<span> Based in India </span> <span> AI systems &amp; LLM inference </span>
+</figcaption>
+</figure>
+</div>
+</section>
+<div class="focus-strip">
+<span> What Iâ€™m working on </span>
+<ul>
+<li>
+ LLM inference 
+</li>
+<li>
+ KV-cache systems 
+</li>
+<li>
+ Information theory 
+</li>
+</ul>
+<a href="https://bruce12-glitch.github.io/ILRL-Labs/" rel="noopener" target="_blank">Founder, ILRL Labs â†—</a>
+</div>
+<section class="research-section" id="research">
+<div class="section-heading">
+<div>
+<p class="eyebrow">
+ Research 
+</p>
+<h2 class="section-title">
+ My research. 
+</h2>
+</div>
+<figure aria-hidden="true" class="section-art">
+<img alt="" decoding="async" height="180" loading="lazy" src="assets/studio/research-sketch.png" width="200"/>
+</figure>
+</div>
+<p class="section-subtitle">
+ Iâ€™m interested in how language models use time and memory. My work focuses on context pruning, KV-cache management, and the information theory behind those choices. I also work on zero-trust software verification. 
+</p>
+<div class="entry-list">
+<article class="entry-card project-1">
+<div class="entry-body">
+<p class="paper-category">
+<span> 01 </span> CONTEXT PRUNING 
+</p>
+<h3 class="entry-title">
+<a aria-label="Read EntroPrefill: RÃ©nyi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation" href="https://arxiv.org/html/2610.09757v1" rel="noopener" target="_blank">EntroPrefill <span aria-hidden="true"> â†— </span></a>
+</h3>
+<p class="paper-subtitle">
+ RÃ©nyi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation 
+</p>
+<div class="entry-authors">
+<strong>Inbasekaran S</strong>
+</div>
+<div class="entry-meta">
+<span class="badge"> arXiv:2610.09757v1 [cs.LG] Â· Oct 2026 </span> <span class="badge badge-highlight"> -43.1% TTFT </span> <span class="paper-links"> <a href="https://arxiv.org/html/2610.09757v1" rel="noopener" target="_blank">Read paper â†—</a> <a href="https://scholar.google.com/citations?user=kNn4OZIAAAAJ&amp;hl=en&amp;authuser=5" rel="noopener" target="_blank">Google Scholar â†—</a> </span>
+</div>
+<p class="entry-desc">
+ I study which parts of a long context can be removed while an LLM is still processing the prompt. EntroPrefill uses RÃ©nyi entropy to propose what to prune, with checks on the attention mass that is removed. 
+</p>
+<details class="method-details">
+<summary>
+ Technical notes <span aria-hidden="true"> ï¼‹ </span>
+</summary>
+<ul class="entry-bullets">
+<li>
+ I implemented a training-free context-pruning method that reduced time to first token (TTFT) by 43.1% in the reported experiments. 
+</li>
+<li>
+ The scoring uses Order-2 RÃ©nyi entropy on GQA-pooled attention, alongside conditional transformer perturbation bounds. 
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="entry-card project-2">
+<div class="entry-body">
+<p class="paper-category">
+<span> 02 </span> KV-CACHE MANAGEMENT 
+</p>
+<h3 class="entry-title">
+<a aria-label="Read Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention" href="https://arxiv.org/html/2610.03135v1" rel="noopener" target="_blank">Page-EntroKV <span aria-hidden="true"> â†— </span></a>
+</h3>
+<p class="paper-subtitle">
+ Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention 
+</p>
+<div class="entry-authors">
+<strong>Inbasekaran S</strong>
+</div>
+<div class="entry-meta">
+<span class="badge"> arXiv:2610.03135v1 Â· Oct 2026 </span> <span class="badge badge-highlight"> UOR 1.000 Â· 100% Needle Recall </span> <span class="paper-links"> <a href="https://arxiv.org/html/2610.03135v1" rel="noopener" target="_blank">Read paper â†—</a> <a href="https://arxiv.org/abs/2610.03135" rel="noopener" target="_blank">Abstract â†—</a> </span>
+</div>
+<p class="entry-desc">
+ I work on how an LLM should use a limited KV cache. Page-EntroKV scores and evicts memory at the page level, matching the layer, group, and page units used by serving systems. 
+</p>
+<details class="method-details">
+<summary>
+ Technical notes <span aria-hidden="true"> ï¼‹ </span>
+</summary>
+<ul class="entry-bullets">
+<li>
+ The framework keeps the Union Overhead Ratio (UOR) at 1.000. Head-independent replay used up to 4.75Ã—â€“5.1Ã— as much cache on Qwen2.5-1.5B-Instruct. 
+</li>
+<li>
+ It removes a 13Ã— attention-sink masquerade and reaches 100% needle recall at a 20% KV budget in the reported test; arithmetic-mean pooling reaches 0%. 
+</li>
+<li>
+ Page allocation uses RÃ©nyi-2 collision entropy and Hamiltonâ€“Hare largest-remainder rounding. 
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="entry-card project-3">
+<div class="entry-body">
+<p class="paper-category">
+<span> 03 </span> SOFTWARE VERIFICATION 
+</p>
+<h3 class="entry-title">
+ VendorChain 
+</h3>
+<p class="paper-subtitle">
+ Zero-Trust B2B Supply-Chain Verification Engine 
+</p>
+<div class="entry-authors">
+<strong>Inbasekaran S</strong> Â· Undergraduate Research Opportunities Program (UROP) at <a href="https://www.srmist.edu.in/" rel="noopener" target="_blank">SRMIST</a>
+</div>
+<div class="entry-meta">
+<span class="badge"> UROP Research </span> <span class="badge"> Zero-Trust &amp; Cryptography </span>
+</div>
+<p class="entry-desc">
+ I built VendorChain to check software as it moves through a supply chain. It combines zero-trust file intake, signed software bills of materials, and a private blockchain record of verification decisions. 
+</p>
+<details class="method-details">
+<summary>
+ Technical notes <span aria-hidden="true"> ï¼‹ </span>
+</summary>
+<ul class="entry-bullets">
+<li>
+ I built a NIST SP 800-207-aligned intake pipeline with binary magic-byte validation, AES-256-GCM envelope encryption, and in-memory zeroing. 
+</li>
+<li>
+ I used Syft to extract CycloneDX software bills of materials and Cosign to sign them, so an artifactâ€™s origin and integrity can be checked. 
+</li>
+<li>
+ I deployed a private Hyperledger Fabric network with Go chaincode to record SHA-256 artifact hashes, policy decisions, and timestamps. 
+</li>
+</ul>
+</details>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="about-heading" class="about-strip" id="about">
+<div>
+<p class="eyebrow">
+ A little about me 
+</p>
+<h2 id="about-heading">
+ A little <br/> about me. 
+</h2>
+</div>
+<div class="hero-bio">
+<div class="bio-byline">
+<img alt="Portrait of Inbasekaran S" decoding="async" height="64" loading="lazy" src="assets/inbasekaran-portrait.jpg" width="64"/> 
+</div>
+<p>
+ Iâ€™m studying Computer Science and Engineering (Cyber Security) at <a href="https://www.srmist.edu.in/" rel="noopener" target="_blank">SRM Institute of Science and Technology</a>. Iâ€™m in my third year, with a CGPA of 8.66/10, and expect to graduate in May 2028. 
+</p>
+<p>
+ My research centres on LLM inference and memory systems, particularly <a href="https://arxiv.org/html/2610.09757v1" rel="noopener" target="_blank">context pruning</a> and <a href="https://arxiv.org/html/2610.03135v1" rel="noopener" target="_blank">KV-cache management</a> under grouped-query attention. I also build AI agent workspaces and zero-trust software verification systems. 
+</p>
+<p>
+ Outside that work, I write. Iâ€™m the author of <a href="https://a.co/d/08D406kn" rel="noopener" target="_blank"><em>Neither Living Nor Dying: Reflection of the Middle</em></a>. 
+</p>
+</div>
+</section>
+<section aria-labelledby="personal-heading" class="personal-section">
+<div class="personal-copy">
+<p class="eyebrow">
+ Outside research 
+</p>
+<h2 id="personal-heading">
+ Iâ€™ve always loved reading. 
+</h2>
+<p>
+I often read about human psychology, psychoanalysis, and finance.
+</p>
+<p>
+Lately, Iâ€™ve been spending more time on mathematics, particularly information theory, and thinking about inference for AGI.
+</p>
+</div>
+<figure aria-hidden="true" class="personal-art">
+<img alt="" decoding="async" height="180" loading="lazy" src="assets/studio/thinking.png" width="200"/>
+</figure>
+</section>
+<section id="awards">
+<div class="section-heading">
+<div>
+<p class="eyebrow">
+ Recognition 
+</p>
+<h2 class="section-title">
+ Awards &amp; recognition. 
+</h2>
+</div>
+<figure aria-hidden="true" class="section-art">
+<img alt="" decoding="async" height="180" loading="lazy" src="assets/studio/recognition.png" width="200"/>
+</figure>
+</div>
+<div class="timeline-list">
+<div class="timeline-row">
+<div class="timeline-period">
+ Hackathon Winner 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Winner, Raccoon AI Hackathon 
+</div>
+<div class="timeline-sub">
+ I won first place after building and demonstrating an applied AI system. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ National Finalist 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Shark Tank Nationals 
+</div>
+<div class="timeline-sub">
+ I was selected as a national finalist and presented an AI product prototype to an investor panel. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ Top 10 Finalist 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Hack Rush Hackathon 
+</div>
+<div class="timeline-sub">
+ I placed in the Top 10 after building a working software MVP in a 24-hour sprint. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ Top 0.68% India 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Naukri Campus Young Turks 
+</div>
+<div class="timeline-sub">
+ I scored in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turksâ€™ coding and technology assessments across India. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ 2026 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Oracle Cloud &amp; AI 4x Foundations Associate 
+</div>
+<div class="timeline-sub">
+ I earned four Oracle Cloud &amp; AI Foundations Associate certifications in 2026. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ 2025 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Prompt Engineering for Generative AI Â· NPTEL Silver Rank Â· Lean Six Sigma Green Belt 
+</div>
+<div class="timeline-sub">
+ In 2025, I completed Prompt Engineering for Generative AI through DeepLearning.AI / Coursera, earned an NPTEL Silver Rank in Fundamentals of C/C++/Java/DBMS, and earned the IASSC Lean Six Sigma Green Belt. 
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="experience-service">
+<section id="experience">
+<p class="eyebrow">
+ Experience &amp; education 
+</p>
+<h2 class="section-title">
+ Where Iâ€™ve learned. 
+</h2>
+<div class="timeline-list">
+<div class="timeline-row">
+<div class="timeline-period">
+ Jul â€“ Aug 2026 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ AICTE AWS Gen AI Intern <span class="badge" style="margin-left:0.35rem;"> Virtual </span>
+</div>
+<div class="timeline-sub">
+ I worked through generative AI labs and planned model training and evaluation exercises using Amazon SageMaker and AWS Academy, documenting accuracy and performance metrics. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ Apr â€“ Jun 2026 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ AICTE Google Virtual Intern â€” AI/ML <span class="badge" style="margin-left:0.35rem;"> Virtual </span>
+</div>
+<div class="timeline-sub">
+ I completed hands-on machine learning exercises, practical workflows, and applied AI/ML projects. 
+</div>
+</div>
+</div>
+<div class="timeline-row" id="education">
+<div class="timeline-period">
+ 2024 â€“ 2028 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+<a href="https://www.srmist.edu.in/" rel="noopener" target="_blank">SRM Institute of Science and Technology (SRMIST)</a>
+</div>
+<div class="timeline-sub">
+<strong>B.Tech in Computer Science &amp; Engineering (Cyber Security)</strong> Â· CGPA: <strong>8.66 / 10</strong> (Expected May 2028) <br/> <em>Relevant Coursework:</em> Data Structures &amp; Algorithms, Database Management Systems, Computer Networks, Operating Systems, Artificial Intelligence, Information Security, System Design. 
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="service">
+<div class="section-heading team-heading">
+<div>
+<p class="eyebrow">
+ People &amp; teamwork 
+</p>
+<h2 class="section-title">
+ Working together. 
+</h2>
+</div>
+<figure aria-hidden="true" class="section-art">
+<img alt="" decoding="async" height="180" loading="lazy" src="assets/studio/teamwork.png" width="200"/>
+</figure>
+</div>
+<div class="timeline-list">
+<div class="timeline-row">
+<div class="timeline-period">
+ Aug 2025 â€“ Aug 2026 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Creatives &amp; Sponsorship Lead, Founders Club SRMIST 
+</div>
+<div class="timeline-sub">
+ I led technical, creative, and outreach work for 5+ university startup events. Improving how the teams communicated helped reduce deliverable turnaround time by 25%. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ Aug 2025 â€“ Aug 2026 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Technical Member, E-Cell SRMIST 
+</div>
+<div class="timeline-sub">
+ I built websites and promotional materials for campus entrepreneurship events. 
+</div>
+</div>
+</div>
+<div class="timeline-row">
+<div class="timeline-period">
+ Aug 2024 â€“ Present 
+</div>
+<div class="timeline-main">
+<div class="timeline-title">
+ Corporate Member, IEEE Student Branch SRMIST 
+</div>
+<div class="timeline-sub">
+ I worked on corporate outreach and sponsorships to bring industry partners into technical events. 
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<section id="writing">
+<div class="section-heading">
+<div>
+<p class="eyebrow">
+ Beyond research 
+</p>
+<h2 class="section-title">
+ Writing. 
+</h2>
+</div>
+</div>
+<div class="entry-list">
+<article class="entry-card">
+<div class="entry-thumb">
+<a class="book-cover" href="https://a.co/d/08D406kn" rel="noopener" target="_blank"><img alt="Book cover for Neither Living Nor Dying: Reflections on the Middle by Inbasekaran S" decoding="async" height="438" loading="lazy" src="assets/neither-living-nor-dying-cover.webp" width="300"/></a>
+</div>
+<div class="entry-body">
+<h3 class="entry-title">
+<a href="https://a.co/d/08D406kn" rel="noopener" target="_blank">Neither Living Nor Dying: Reflection of the Middle</a>
+</h3>
+<div class="entry-authors">
+<strong>Inbasekaran S</strong> Â· Authored Book 
+</div>
+<div class="entry-meta">
+<span class="badge"> Published Book </span> <span class="paper-links"> <a href="https://a.co/d/08D406kn" rel="noopener" target="_blank">Find it on Amazon â†—</a> </span>
+</div>
+<p class="entry-desc">
+I also write about philosophy. My book, <em>Neither Living Nor Dying: Reflection of the Middle</em>, is available on Amazon.
+</p>
+</div>
+</article>
+</div>
+</section>
+<section id="updates">
+<div class="section-heading compact">
+<div>
+<p class="eyebrow">
+ Lately 
+</p>
+<h2 class="section-title">
+ Recent updates. 
+</h2>
+</div>
+<span class="section-note"> Research &amp; updates </span>
+</div>
+<ul class="updates-list">
+<li class="update-item">
+<span class="update-date"> Oct. 2026 </span> <span> I shared <a href="https://arxiv.org/html/2610.09757v1" rel="noopener" target="_blank"><strong>EntroPrefill: RÃ©nyi-Guided Context Pruning with Conditional Stability Guarantees for Retrieval-Augmented Generation</strong></a> on arXiv ( <code>arXiv:2610.09757v1</code>). </span>
+</li>
+<li class="update-item">
+<span class="update-date"> Oct. 2026 </span> <span> I shared <a href="https://arxiv.org/html/2610.03135v1" rel="noopener" target="_blank"><strong>Page-EntroKV: Hardware-Aligned, Entropy-Weighted KV-Cache Eviction under Grouped-Query Attention</strong></a> on arXiv ( <code>arXiv:2610.03135v1</code>). </span>
+</li>
+<li class="update-item">
+<span class="update-date"> Jul â€“ Aug 2026 </span> <span> I completed the <strong>AICTE AWS Gen AI Virtual Internship</strong>, designing model training and evaluation labs on Amazon SageMaker and AWS Academy. </span>
+</li>
+<li class="update-item">
+<span class="update-date"> Apr â€“ Jun 2026 </span> <span> I completed the <strong>AICTE Google AI/ML Virtual Internship</strong> focused on applied machine learning labs and systems exercises. </span>
+</li>
+<li class="update-item">
+<span class="update-date"> 2025 â€“ 2026 </span> <span>I won the <strong>Raccoon AI Hackathon</strong>, reached the <strong>Shark Tank national finals</strong>, and scored in the <strong>99.32 national percentile</strong> in Naukri Campus Young Turks.</span>
+</li>
+</ul>
+</section>
+<section aria-labelledby="contact-heading" class="contact" id="contact">
+<div class="contact-copy">
+<p class="eyebrow">
+ Get in touch 
+</p>
+<h2 id="contact-heading">
+ Letâ€™s talk. 
+</h2>
+<p>
+ If youâ€™d like to talk about my research, work on something together, or recommend a book, Iâ€™d love to hear from you. 
+</p>
+<a class="button" href="mailto:inba.research.ilrl.labs@gmail.com">Send me an email <span aria-hidden="true"> â†— </span></a> <a class="contact-email" href="mailto:inba.research.ilrl.labs@gmail.com">inba.research.ilrl.labs@gmail.com</a> <button aria-live="polite" class="copy-email-btn" data-email="inba.research.ilrl.labs@gmail.com" type="button"> Copy email address </button>
+</div>
+<figure aria-hidden="true" class="contact-art">
+<img alt="" decoding="async" height="180" loading="lazy" src="assets/studio/contact.png" width="200"/>
+</figure>
+</section>
+<footer>
+<a class="brand" href="#top"><img alt="" decoding="async" height="44" src="assets/brand/inbasekaran-mark.png" width="44"/> <span> Inbasekaran S. </span></a>
+<p>
+ Â© 2026 Inbasekaran S 
+</p>
+<a href="mailto:inba.research.ilrl.labs@gmail.com">Email â†—</a> <a href="#top">Back to top â†‘</a>
+</footer>
+</main>
+<div aria-hidden="true" class="cursor-halo">
+</div>
+<script defer="" src="assets/studio.js?v=20261024-editorial2">
+</script>
 </body>
 </html>
