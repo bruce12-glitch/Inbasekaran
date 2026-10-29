@@ -1,0 +1,112 @@
+{
+  "brand": "Inbasekaran S",
+  "direction": "Lilac Fieldnotes",
+  "source": "Supplied Notion analysis; the light-only surfaces and plum ink are user overrides",
+  "tokens": {
+    "bg": {
+      "value": "#fffefb",
+      "role": "Warm paper page",
+      "usage": "Warm paper page"
+    },
+    "surface": {
+      "value": "#ffffff",
+      "role": "White reading surface",
+      "usage": "White reading surface"
+    },
+    "surface-soft": {
+      "value": "#f6f5f4",
+      "role": "Quiet biography surface",
+      "usage": "Quiet biography surface"
+    },
+    "ink": {
+      "value": "#392b52",
+      "role": "Deep plum heading ink, replacing black per user preference",
+      "usage": "Deep plum heading ink, replacing black per user preference"
+    },
+    "body": {
+      "value": "#5d526d",
+      "role": "Readable plum body text",
+      "usage": "Readable plum body text"
+    },
+    "muted": {
+      "value": "#6a5f76",
+      "role": "Secondary labels",
+      "usage": "Secondary labels"
+    },
+    "purple": {
+      "value": "#5645d4",
+      "role": "Primary action only",
+      "usage": "Primary action only"
+    },
+    "purple-pressed": {
+      "value": "#4534b3",
+      "role": "Action hover and pressed",
+      "usage": "Action hover and pressed"
+    },
+    "plum": {
+      "value": "#695395",
+      "role": "Illustration ink and display accent",
+      "usage": "Illustration ink and display accent"
+    },
+    "lilac": {
+      "value": "#e6e0f5",
+      "role": "Lavender feature surface",
+      "usage": "Lavender feature surface"
+    },
+    "lilac-soft": {
+      "value": "#f2eefb",
+      "role": "Hero surface",
+      "usage": "Hero surface"
+    },
+    "peach": {
+      "value": "#ffe8d4",
+      "role": "Recognition surface",
+      "usage": "Recognition surface"
+    },
+    "mint": {
+      "value": "#d9f3e1",
+      "role": "Research result badge surface",
+      "usage": "Research result badge surface"
+    },
+    "sky": {
+      "value": "#dcecfa",
+      "role": "KV-cache diagram surface",
+      "usage": "KV-cache diagram surface"
+    },
+    "yellow": {
+      "value": "#fef7d6",
+      "role": "Book feature surface",
+      "usage": "Book feature surface"
+    },
+    "tea": {
+      "value": "#326b5a",
+      "role": "Result badge text",
+      "usage": "Result badge text"
+    },
+    "rust": {
+      "value": "#8f4e32",
+      "role": "Recognition badge text",
+      "usage": "Recognition badge text"
+    },
+    "border": {
+      "value": "#e5dfeb",
+      "role": "Nonessential hairline",
+      "usage": "Nonessential hairline"
+    },
+    "control-border": {
+      "value": "#8b799b",
+      "role": "Interactive boundary",
+      "usage": "Interactive boundary"
+    },
+    "link": {
+      "value": "#0075de",
+      "role": "Inline links on white",
+      "usage": "Inline links on white"
+    },
+    "link-surface": {
+      "value": "#005bab",
+      "role": "Inline links on tinted surfaces",
+      "usage": "Inline links on tinted surfaces"
+    }
+  }
+}
